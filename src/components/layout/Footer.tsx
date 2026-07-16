@@ -113,6 +113,9 @@ export function Footer() {
             © {year} Mac Climatização. Todos os direitos reservados.
           </p>
           <p>Atendimento em Alfenas e região, Minas Gerais.</p>
+          <Link href="/admin/login" className="text-ice-100/40 hover:text-ice-100/70">
+            Acesso administrativo
+          </Link>
         </div>
       </div>
     </footer>

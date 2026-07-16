@@ -1,6 +1,6 @@
 # Imagens do site
 
-Coloque aqui as fotografias reais da MAC Climatização, organizadas por pasta:
+Coloque aqui as fotografias reais da Mac Climatização, organizadas por pasta:
 
 - `hero/` — foto principal usada na seção inicial (instalação, manutenção ou higienização).
 - `sobre/` — foto da equipe ou de um profissional em atendimento.

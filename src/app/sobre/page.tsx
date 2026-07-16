@@ -4,9 +4,9 @@ import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
 import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
 
 export const metadata: Metadata = {
-  title: "Sobre a MAC Climatização",
+  title: "Sobre a Mac Climatização",
   description:
-    "Conheça a MAC Climatização: soluções de climatização para casas, comércios e empresas em Alfenas e região.",
+    "Conheça a Mac Climatização: soluções de climatização para casas, comércios e empresas em Alfenas e região.",
   alternates: { canonical: "/sobre" },
 };
 

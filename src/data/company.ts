@@ -3,8 +3,8 @@
 // Não invente endereço, avaliações, tempo de mercado ou certificações.
 
 export const company = {
-  name: "MAC Climatização",
-  legalName: "MAC Climatização",
+  name: "Mac Climatização",
+  legalName: "Mac Climatização",
   tagline: "Climatização com qualidade para sua casa ou empresa",
   segment: "Climatização e ar-condicionado",
   region: "Alfenas e região, Minas Gerais",

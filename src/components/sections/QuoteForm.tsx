@@ -45,7 +45,7 @@ export function QuoteForm() {
       form.service;
 
     const lines = [
-      "Olá! Encontrei a MAC Climatização pelo site e gostaria de solicitar um orçamento.",
+      "Olá! Encontrei a Mac Climatização pelo site e gostaria de solicitar um orçamento.",
       "",
       `Nome: ${form.name}`,
       `Telefone: ${form.phone}`,

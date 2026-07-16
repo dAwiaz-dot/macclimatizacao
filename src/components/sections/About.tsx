@@ -23,13 +23,13 @@ export function About() {
 
         <div className="order-1 lg:order-2">
           <span className="inline-block rounded-full bg-mac-sky-50 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-mac-sky-700">
-            Sobre a MAC Climatização
+            Sobre a Mac Climatização
           </span>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-mac-navy-800 sm:text-4xl">
             Cuidado e profissionalismo em cada atendimento
           </h2>
           <p className="mt-5 text-base leading-relaxed text-slate-600">
-            A MAC Climatização oferece soluções de climatização para casas,
+            A Mac Climatização oferece soluções de climatização para casas,
             comércios e empresas em Alfenas e região. Trabalhamos com venda,
             instalação, manutenção, reparo e higienização de ar-condicionado,
             sempre buscando entregar um serviço cuidadoso, profissional e de

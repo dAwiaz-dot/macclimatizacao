@@ -3,7 +3,7 @@ import { Container } from "@/components/ui/Container";
 
 export const metadata: Metadata = {
   title: "Política de Privacidade",
-  description: "Política de Privacidade do site da MAC Climatização.",
+  description: "Política de Privacidade do site da Mac Climatização.",
   alternates: { canonical: "/politica-de-privacidade" },
 };
 
@@ -20,7 +20,7 @@ export default function PoliticaDePrivacidadePage() {
 
         <div className="mt-8 space-y-6 text-sm leading-relaxed text-slate-600">
           <p>
-            Esta Política de Privacidade descreve como a MAC Climatização
+            Esta Política de Privacidade descreve como a Mac Climatização
             trata as informações fornecidas pelos visitantes deste site.
           </p>
 
@@ -56,7 +56,7 @@ export default function PoliticaDePrivacidadePage() {
             </h2>
             <p className="mt-2">
               As informações fornecidas pelo formulário de orçamento são
-              enviadas diretamente para o WhatsApp da MAC Climatização e não
+              enviadas diretamente para o WhatsApp da Mac Climatização e não
               são compartilhadas com terceiros para fins comerciais.
             </p>
           </section>

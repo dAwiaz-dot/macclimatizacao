@@ -11,7 +11,7 @@ type Props = {
 /**
  * Imagem de demonstração (banco de imagens gratuito), usada apenas para o
  * cliente visualizar o layout com fotos. Marca um selo "Foto ilustrativa"
- * para deixar claro que ainda não é uma fotografia real da MAC Climatização.
+ * para deixar claro que ainda não é uma fotografia real da Mac Climatização.
  * Substitua por <Image> apontando para /public/images assim que houver
  * fotos reais — remova este componente e o selo junto.
  */

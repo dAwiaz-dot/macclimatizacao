@@ -11,7 +11,7 @@ export function Testimonials() {
       <Container>
         <SectionHeading
           eyebrow="Avaliações de clientes"
-          title="O que dizem sobre a MAC Climatização"
+          title="O que dizem sobre a Mac Climatização"
         />
 
         <div className="mt-12">

@@ -1,6 +1,6 @@
-# Site MAC Climatização
+# Site Mac Climatização
 
-Site institucional e landing page de conversão para a **MAC Climatização**,
+Site institucional e landing page de conversão para a **Mac Climatização**,
 empresa de climatização e ar-condicionado que atende Alfenas e região (MG).
 
 Construído com Next.js (App Router), React, TypeScript, Tailwind CSS,

@@ -2,7 +2,7 @@
 //
 // IMPORTANTE: as imagens abaixo são fotos de banco de imagens gratuito (Pexels),
 // usadas apenas como DEMONSTRAÇÃO para a empresa visualizar o layout do site.
-// Não são fotos reais da MAC Climatização. Substitua cada "src" pela fotografia
+// Não são fotos reais da Mac Climatização. Substitua cada "src" pela fotografia
 // real do serviço em /public/images/trabalhos/ assim que estiver disponível
 // (o componente de galeria já exibe automaticamente a foto real no lugar da
 // imagem de demonstração quando o arquivo for trocado).

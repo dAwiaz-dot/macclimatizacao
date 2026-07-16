@@ -10,7 +10,7 @@ import { trackEvent } from "@/lib/analytics";
 
 export function ServiceArea() {
   const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent(
-    `MAC Climatização, ${company.address.street} - ${company.address.neighborhood}, ${company.city} - ${company.state}`
+    `Mac Climatização, ${company.address.street} - ${company.address.neighborhood}, ${company.city} - ${company.state}`
   )}&output=embed`;
 
   return (
@@ -27,7 +27,7 @@ export function ServiceArea() {
             onClick={() => trackEvent("map_open")}
           >
             <iframe
-              title="Localização aproximada da MAC Climatização em Alfenas, MG"
+              title="Localização aproximada da Mac Climatização em Alfenas, MG"
               src={mapEmbedSrc}
               className="h-80 w-full sm:h-96"
               loading="lazy"
@@ -37,7 +37,7 @@ export function ServiceArea() {
 
           <div>
             <p className="text-base leading-relaxed text-slate-600">
-              A MAC Climatização fica em {company.address.street} –{" "}
+              A Mac Climatização fica em {company.address.street} –{" "}
               {company.address.neighborhood}, {company.city}/{company.state}, e
               atende {company.city} e cidades da região. Entre em contato
               informando sua localização para confirmarmos o atendimento no seu

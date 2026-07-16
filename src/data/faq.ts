@@ -5,7 +5,7 @@ export type FaqItem = {
 
 export const faqItems: FaqItem[] = [
   {
-    question: "A MAC Climatização atende residências e empresas?",
+    question: "A Mac Climatização atende residências e empresas?",
     answer:
       "Sim. Atendemos tanto imóveis residenciais quanto comércios e empresas em Alfenas e região.",
   },

@@ -6,11 +6,11 @@ export function buildWhatsAppUrl(message: string, phoneNumber?: string): string 
 }
 
 export const defaultWhatsAppMessage =
-  "Olá! Encontrei a MAC Climatização pelo site e gostaria de solicitar um orçamento.";
+  "Olá! Encontrei a Mac Climatização pelo site e gostaria de solicitar um orçamento.";
 
 export function whatsAppUrlForService(serviceContext: string): string {
   return buildWhatsAppUrl(
-    `Olá! Encontrei a MAC Climatização pelo site e gostaria de solicitar um orçamento para ${serviceContext}.`
+    `Olá! Encontrei a Mac Climatização pelo site e gostaria de solicitar um orçamento para ${serviceContext}.`
   );
 }
 

@@ -18,7 +18,7 @@ export default function ServicosPage() {
         <SectionHeading
           eyebrow="Serviços"
           title="Soluções completas em climatização"
-          description="Conheça os serviços da MAC Climatização para residências e empresas em Alfenas e região."
+          description="Conheça os serviços da Mac Climatização para residências e empresas em Alfenas e região."
         />
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

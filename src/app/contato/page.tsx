@@ -10,7 +10,7 @@ import { buildWhatsAppUrl, defaultWhatsAppMessage, whatsAppUrlDefault } from "@/
 export const metadata: Metadata = {
   title: "Contato",
   description:
-    "Fale com a MAC Climatização pelo WhatsApp (35) 98827-3068 e solicite seu orçamento de ar-condicionado em Alfenas e região.",
+    "Fale com a Mac Climatização pelo WhatsApp (35) 98827-3068 e solicite seu orçamento de ar-condicionado em Alfenas e região.",
   alternates: { canonical: "/contato" },
 };
 
@@ -59,7 +59,7 @@ export default function ContatoPage() {
         <Container>
           <SectionHeading
             eyebrow="Contato"
-            title="Fale com a MAC Climatização"
+            title="Fale com a Mac Climatização"
             description="Escolha o canal mais conveniente para você."
           />
 

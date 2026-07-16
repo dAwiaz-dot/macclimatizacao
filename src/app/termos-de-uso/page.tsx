@@ -3,7 +3,7 @@ import { Container } from "@/components/ui/Container";
 
 export const metadata: Metadata = {
   title: "Termos de Uso",
-  description: "Termos de Uso do site da MAC Climatização.",
+  description: "Termos de Uso do site da Mac Climatização.",
   alternates: { canonical: "/termos-de-uso" },
 };
 
@@ -22,7 +22,7 @@ export default function TermosDeUsoPage() {
               1. Sobre este site
             </h2>
             <p className="mt-2">
-              Este site é mantido pela MAC Climatização com o objetivo de
+              Este site é mantido pela Mac Climatização com o objetivo de
               apresentar seus serviços de climatização e facilitar o contato
               de clientes em Alfenas e região.
             </p>
@@ -46,7 +46,7 @@ export default function TermosDeUsoPage() {
             </h2>
             <p className="mt-2">
               Os textos, imagens e identidade visual deste site pertencem à
-              MAC Climatização e não devem ser reproduzidos sem autorização.
+              Mac Climatização e não devem ser reproduzidos sem autorização.
             </p>
           </section>
 

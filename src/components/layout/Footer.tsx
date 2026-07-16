@@ -90,7 +90,7 @@ export function Footer() {
           <ul className="mt-4 space-y-2 text-sm">
             <li>
               <Link href="/sobre" className="hover:text-mac-sky-300">
-                Sobre a MAC Climatização
+                Sobre a Mac Climatização
               </Link>
             </li>
             <li>
@@ -123,7 +123,7 @@ export function Footer() {
       <div className="border-t border-white/10 py-6">
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-2 px-4 text-center text-xs text-ice-100/60 sm:px-6 lg:px-8">
           <p>
-            © {year} MAC Climatização. Todos os direitos reservados.
+            © {year} Mac Climatização. Todos os direitos reservados.
           </p>
           <p>Atendimento em Alfenas e região, Minas Gerais.</p>
         </div>

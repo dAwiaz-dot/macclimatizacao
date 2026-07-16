@@ -27,7 +27,7 @@ export function WhyChooseUs() {
     <section className="bg-ice-gradient py-20 sm:py-24">
       <Container>
         <SectionHeading
-          eyebrow="Por que escolher a MAC Climatização"
+          eyebrow="Por que escolher a Mac Climatização"
           title="Diferenciais que fazem a diferença no seu atendimento"
         />
 

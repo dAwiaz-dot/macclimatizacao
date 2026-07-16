@@ -18,11 +18,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "MAC Climatização | Ar-Condicionado em Alfenas e Região",
-    template: "%s | MAC Climatização",
+    default: "Mac Climatização | Ar-Condicionado em Alfenas e Região",
+    template: "%s | Mac Climatização",
   },
   description:
-    "Venda, instalação, manutenção, reparo e higienização de ar-condicionado em Alfenas e região. Solicite seu orçamento com a MAC Climatização.",
+    "Venda, instalação, manutenção, reparo e higienização de ar-condicionado em Alfenas e região. Solicite seu orçamento com a Mac Climatização.",
   keywords: [
     "ar-condicionado em Alfenas",
     "instalação de ar-condicionado em Alfenas",
@@ -41,15 +41,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "pt_BR",
     url: siteUrl,
-    siteName: "MAC Climatização",
-    title: "MAC Climatização | Ar-Condicionado em Alfenas e Região",
+    siteName: "Mac Climatização",
+    title: "Mac Climatização | Ar-Condicionado em Alfenas e Região",
     description:
       "Venda, instalação, manutenção, reparo e higienização de ar-condicionado em Alfenas e região.",
     images: ["/images/logo/mac-climatizacao-logo.jpg"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "MAC Climatização | Ar-Condicionado em Alfenas e Região",
+    title: "Mac Climatização | Ar-Condicionado em Alfenas e Região",
     description:
       "Venda, instalação, manutenção, reparo e higienização de ar-condicionado em Alfenas e região.",
     images: ["/images/logo/mac-climatizacao-logo.jpg"],

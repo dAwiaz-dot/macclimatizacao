@@ -22,7 +22,7 @@ export function generateMetadata({ params }: Props): Metadata {
 
   return {
     title: `${service.name} em Alfenas e Região`,
-    description: `${service.shortDescription} Atendimento da MAC Climatização em ${company.city} e região.`,
+    description: `${service.shortDescription} Atendimento da Mac Climatização em ${company.city} e região.`,
     alternates: { canonical: `/servicos/${service.slug}` },
   };
 }
@@ -80,7 +80,7 @@ export default function ServiceDetailPage({ params }: Props) {
         </div>
 
         <PlaceholderImage
-          label={`Foto real de ${service.name.toLowerCase()} — MAC Climatização`}
+          label={`Foto real de ${service.name.toLowerCase()} — Mac Climatização`}
           className="aspect-[4/3] w-full rounded-3xl"
         />
       </Container>

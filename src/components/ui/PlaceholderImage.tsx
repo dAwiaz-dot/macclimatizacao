@@ -7,7 +7,7 @@ type Props = {
 };
 
 /**
- * Placeholder visível usado onde uma fotografia real da MAC Climatização
+ * Placeholder visível usado onde uma fotografia real da Mac Climatização
  * ainda não foi adicionada. Substitua pelo componente <Image> do Next.js
  * assim que a foto real estiver disponível em /public/images.
  */

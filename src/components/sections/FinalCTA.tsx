@@ -23,7 +23,7 @@ export function FinalCTA() {
           Precisa instalar, limpar ou consertar seu ar-condicionado?
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-base text-ice-100/90 sm:text-lg">
-          Fale com a MAC Climatização e solicite seu orçamento para Alfenas e
+          Fale com a Mac Climatização e solicite seu orçamento para Alfenas e
           região.
         </p>
 

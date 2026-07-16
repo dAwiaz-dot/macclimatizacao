@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-mac-navy-800;
+}
+
+@layer components {
+  .form-input {
+    @apply w-full rounded-lg border border-mac-navy-100 bg-white px-4 py-2.5 text-sm text-mac-navy-800 shadow-sm outline-none transition-colors placeholder:text-slate-400 focus:border-mac-sky-400 focus:ring-2 focus:ring-mac-sky-100;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

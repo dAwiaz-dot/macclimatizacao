@@ -11,8 +11,8 @@ export function Logo() {
       <Image
         src="/images/logo/mac-climatizacao-logo-full.png"
         alt="Mac Climatização"
-        width={1774}
-        height={887}
+        width={1536}
+        height={590}
         priority
         className="h-14 w-auto sm:h-11"
       />

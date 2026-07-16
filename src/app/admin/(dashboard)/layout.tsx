@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { LayoutDashboard, LogOut, Package, Images, ExternalLink } from "lucide-react";
@@ -41,8 +42,14 @@ export default async function AdminDashboardLayout({
         <aside className="flex flex-col justify-between border-b border-mac-navy-100 bg-mac-navy-800 p-6 lg:min-h-screen lg:w-64 lg:border-b-0 lg:border-r">
           <div>
             <div className="mb-8">
-              <p className="text-lg font-bold text-white">Mac Climatização</p>
-              <p className="text-xs text-ice-100/60">Painel administrativo</p>
+              <Image
+                src="/images/logo/mac-climatizacao-logo-full.png"
+                alt="Mac Climatização"
+                width={1536}
+                height={590}
+                className="h-9 w-auto"
+              />
+              <p className="mt-2 text-xs text-ice-100/60">Painel administrativo</p>
             </div>
             <nav className="flex flex-row gap-2 lg:flex-col">
               {navItems.map((item) => (

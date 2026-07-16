@@ -2,7 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Lock, Mail, Snowflake } from "lucide-react";
+import Image from "next/image";
+import { Loader2, Lock, Mail } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 export function LoginForm() {
@@ -38,13 +39,17 @@ export function LoginForm() {
     <div className="flex min-h-screen items-center justify-center bg-airflow-gradient px-4">
       <div className="w-full max-w-sm rounded-3xl bg-white p-8 shadow-2xl">
         <div className="flex flex-col items-center text-center">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-mac-sky-50 text-mac-sky-600">
-            <Snowflake className="h-6 w-6" aria-hidden="true" />
-          </span>
+          <Image
+            src="/images/logo/mac-climatizacao-logo-full.png"
+            alt="Mac Climatização"
+            width={1536}
+            height={590}
+            priority
+            className="h-12 w-auto"
+          />
           <h1 className="mt-4 text-xl font-bold text-mac-navy-800">
             Painel administrativo
           </h1>
-          <p className="mt-1 text-sm text-slate-500">Mac Climatização</p>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-4">

@@ -2,9 +2,9 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { Loader2, Lock, Mail } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { Logo } from "@/components/layout/Logo";
 
 export function LoginForm() {
   const router = useRouter();
@@ -39,14 +39,7 @@ export function LoginForm() {
     <div className="flex min-h-screen items-center justify-center bg-airflow-gradient px-4">
       <div className="w-full max-w-sm rounded-3xl bg-white p-8 shadow-2xl">
         <div className="flex flex-col items-center text-center">
-          <Image
-            src="/images/logo/mac-climatizacao-logo-full.png"
-            alt="Mac Climatização"
-            width={1536}
-            height={590}
-            priority
-            className="h-12 w-auto"
-          />
+          <Logo />
           <h1 className="mt-4 text-xl font-bold text-mac-navy-800">
             Painel administrativo
           </h1>

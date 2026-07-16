@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { LayoutDashboard, LogOut, Package, Images, ExternalLink } from "lucide-react";
@@ -7,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { signOutAction } from "@/lib/supabase/auth-actions";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { SupabaseSetupNotice } from "@/components/admin/SupabaseSetupNotice";
+import { Logo } from "@/components/layout/Logo";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -42,13 +42,7 @@ export default async function AdminDashboardLayout({
         <aside className="flex flex-col justify-between border-b border-mac-navy-100 bg-mac-navy-800 p-6 lg:min-h-screen lg:w-64 lg:border-b-0 lg:border-r">
           <div>
             <div className="mb-8">
-              <Image
-                src="/images/logo/mac-climatizacao-logo-full.png"
-                alt="Mac Climatização"
-                width={1536}
-                height={590}
-                className="h-9 w-auto"
-              />
+              <Logo variant="light" />
               <p className="mt-2 text-xs text-ice-100/60">Painel administrativo</p>
             </div>
             <nav className="flex flex-row gap-2 lg:flex-col">

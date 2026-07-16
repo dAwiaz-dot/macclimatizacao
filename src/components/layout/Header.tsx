@@ -37,7 +37,7 @@ export function Header() {
       )}
     >
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <Logo />
+        <Logo variant={scrolled || menuOpen ? "dark" : "light"} />
 
         <nav className="hidden items-center gap-6 lg:flex" aria-label="Menu principal">
           {navLinks.map((link) => (

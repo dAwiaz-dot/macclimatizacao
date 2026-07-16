@@ -12,7 +12,7 @@ export function Footer() {
     <footer className="bg-mac-navy-800 text-ice-100">
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
         <div className="lg:col-span-2">
-          <Logo />
+          <Logo variant="light" />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-ice-100/80">
             Soluções de climatização para casas, comércios e empresas em Alfenas
             e região: venda, instalação, manutenção, reparo e higienização de

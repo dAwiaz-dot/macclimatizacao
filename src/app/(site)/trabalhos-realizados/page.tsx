@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/trabalhos-realizados" },
 };
 
+export const revalidate = 3600;
+
 export default function TrabalhosRealizadosPage() {
   return (
     <div className="pt-16">

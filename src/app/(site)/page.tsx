@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Hero } from "@/components/sections/Hero";
 import { TrustBar } from "@/components/sections/TrustBar";
 import { Services } from "@/components/sections/Services";
+import { Products } from "@/components/sections/Products";
 import { QuickDiagnosis } from "@/components/sections/QuickDiagnosis";
 import { About } from "@/components/sections/About";
 import { Gallery } from "@/components/sections/Gallery";
@@ -20,6 +21,10 @@ import { getFaqSchema, getServiceListSchema } from "@/lib/schema";
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
+
+// Revalidação periódica de segurança (produtos/portfólio já são atualizados
+// instantaneamente via revalidatePath quando o admin salva alterações).
+export const revalidate = 3600;
 
 export default function HomePage() {
   return (
@@ -40,6 +45,7 @@ export default function HomePage() {
       <Hero />
       <TrustBar />
       <Services />
+      <Products />
       <QuickDiagnosis />
       <About />
       <Gallery />

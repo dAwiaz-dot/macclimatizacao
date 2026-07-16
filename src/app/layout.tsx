@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { WhatsAppFloatButton } from "@/components/layout/WhatsAppFloatButton";
-import { MobileCTA } from "@/components/layout/MobileCTA";
-import { AnalyticsScripts } from "@/components/analytics/AnalyticsScripts";
-import { getLocalBusinessSchema } from "@/lib/schema";
 import { siteUrl } from "@/data/company";
 
 const inter = Inter({
@@ -64,21 +58,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR" className={inter.variable}>
-      <body className="font-sans antialiased">
-        <script
-          type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getLocalBusinessSchema()),
-          }}
-        />
-        <AnalyticsScripts />
-        <Header />
-        <main className="pb-16 sm:pb-0">{children}</main>
-        <Footer />
-        <WhatsAppFloatButton />
-        <MobileCTA />
-      </body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }

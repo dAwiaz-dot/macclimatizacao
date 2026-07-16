@@ -4,7 +4,55 @@ Site institucional e landing page de conversão para a **Mac Climatização**,
 empresa de climatização e ar-condicionado que atende Alfenas e região (MG).
 
 Construído com Next.js (App Router), React, TypeScript, Tailwind CSS,
-Framer Motion e Lucide Icons.
+Framer Motion, Lucide Icons e Supabase (autenticação, banco de dados e
+armazenamento de imagens) para o painel administrativo.
+
+---
+
+## Painel administrativo (`/admin`)
+
+O site tem um painel administrativo simples para o cliente gerenciar, sem
+precisar mexer em código:
+
+- **Produtos** — catálogo de equipamentos à venda (nome, categoria e
+  imagem, sem preços), exibido automaticamente na seção "Produtos" da
+  landing page.
+- **Trabalhos realizados** — portfólio de serviços (foto, título, breve
+  descrição e data opcional), exibido automaticamente na seção "Trabalhos
+  realizados".
+
+Cada produto e cada trabalho realizado tem um botão "Solicitar orçamento
+pelo WhatsApp" com mensagem pré-preenchida mencionando o item.
+
+Não há carrinho, preços ou pagamento — o painel serve apenas para manter
+fotos e textos atualizados.
+
+### Configurando o Supabase (necessário para o painel funcionar)
+
+1. Crie uma conta gratuita em [supabase.com](https://supabase.com) e crie um
+   novo projeto.
+2. No painel do projeto, vá em **Project Settings → API** e copie a
+   **Project URL** e a chave **anon public**.
+3. Cole esses valores no seu `.env.local`:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxxx.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOi...
+   ```
+4. Vá em **SQL Editor**, cole o conteúdo do arquivo
+   `supabase/migrations/0001_init.sql` deste projeto e clique em **Run**.
+   Isso cria as tabelas `products` e `portfolio_items`, as políticas de
+   segurança (RLS) e o bucket de armazenamento público `site-uploads` para
+   as imagens.
+5. Crie o usuário administrador: vá em **Authentication → Users → Add
+   user**, informe um e-mail e senha (marque "Auto Confirm User"). Esse
+   será o login usado em `/admin/login`. Não existe tela pública de
+   cadastro — apenas esse usuário criado manualmente tem acesso.
+6. Rode o projeto (`npm run dev`) e acesse `http://localhost:3000/admin`
+   para entrar no painel.
+
+Sem essas variáveis configuradas, o site público continua funcionando
+normalmente — as seções de Produtos e Trabalhos Realizados apenas ficam
+vazias, e o painel `/admin` não consegue autenticar.
 
 ---
 
@@ -83,22 +131,30 @@ src/
     servicos/              Lista de serviços
       [slug]/page.tsx      Página individual de cada serviço
     sobre/                Página "Sobre"
-    trabalhos-realizados/ Galeria de trabalhos
+    trabalhos-realizados/ Portfólio de trabalhos (dinâmico, via Supabase)
     contato/              Contato + formulário
     politica-de-privacidade/
     termos-de-uso/
+    admin/                Painel administrativo
+      login/               Tela de login (pública)
+      (dashboard)/         Área protegida: início, produtos, portfólio
     not-found.tsx          Página 404 personalizada
     sitemap.ts / robots.ts SEO técnico
-    icon.tsx               Favicon gerado
+    icon.png               Favicon gerado a partir da logo
   components/
     layout/                Header, Footer, menu mobile, WhatsApp flutuante, CTA fixo mobile
-    sections/               Todas as seções da home (Hero, Serviços, FAQ, etc.)
+    sections/               Todas as seções da home (Hero, Serviços, Produtos, FAQ, etc.)
     ui/                     Componentes reutilizáveis (Button, Container, PlaceholderImage...)
+    admin/                  Componentes do painel administrativo
     analytics/              Scripts de GA4 / GTM / Meta Pixel
-  data/                     Fonte única de dados (empresa, serviços, FAQ, galeria, depoimentos)
-  lib/                      Utilitários (WhatsApp, analytics, schema.org)
+  data/                     Dados fixos (empresa, serviços, FAQ, depoimentos)
+  lib/                      Utilitários (WhatsApp, analytics, schema.org, produtos/portfólio)
+    supabase/               Clientes Supabase (browser, server, middleware, storage)
+  middleware.ts             Protege as rotas /admin e renova a sessão do Supabase
 public/
   images/                   Pasta para fotos reais (ver README dentro da pasta)
+supabase/
+  migrations/               SQL para criar tabelas, RLS e bucket de imagens
 ```
 
 ## Substituindo dados reais e imagens
@@ -111,10 +167,11 @@ pelo componente `<Image />` do Next.js nos seguintes arquivos:
 
 - Hero: `src/components/sections/Hero.tsx`
 - Sobre: `src/components/sections/About.tsx`
-- Galeria: defina o campo `src` de cada item em `src/data/gallery.ts` — o
-  componente já troca automaticamente o placeholder pela foto real quando
-  `src` deixa de ser `null`.
 - Antes/depois: `src/components/sections/BeforeAfterSlider.tsx`
+
+As fotos de **Produtos** e **Trabalhos realizados** não ficam mais em
+arquivos do projeto — são cadastradas pelo cliente diretamente no painel
+`/admin` (ver seção [Painel administrativo](#painel-administrativo-admin)).
 
 ### 2. Endereço e horário de atendimento
 

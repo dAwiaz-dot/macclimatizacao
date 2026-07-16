@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { LayoutDashboard, LogOut, Package, Images, ExternalLink } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
-import { signOutAction } from "@/lib/supabase/auth-actions";
-import { isSupabaseConfigured } from "@/lib/supabase/env";
-import { SupabaseSetupNotice } from "@/components/admin/SupabaseSetupNotice";
+import { signOutAction } from "@/lib/admin/auth-actions";
+import { isAuthConfigured } from "@/lib/admin/env";
+import { isValidSessionToken, SESSION_COOKIE } from "@/lib/admin/session";
+import { AdminSetupNotice } from "@/components/admin/AdminSetupNotice";
 import { Logo } from "@/components/layout/Logo";
 
 export const metadata: Metadata = {
@@ -23,16 +24,14 @@ export default async function AdminDashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  if (!isSupabaseConfigured) {
-    return <SupabaseSetupNotice />;
+  if (!isAuthConfigured) {
+    return <AdminSetupNotice />;
   }
 
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const token = cookies().get(SESSION_COOKIE)?.value;
+  const authenticated = await isValidSessionToken(token);
 
-  if (!user) {
+  if (!authenticated) {
     redirect("/admin/login");
   }
 
@@ -68,7 +67,6 @@ export default async function AdminDashboardLayout({
               <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
               Ver site publicado
             </Link>
-            <p className="truncate text-xs text-ice-100/50">{user.email}</p>
             <form action={signOutAction}>
               <button
                 type="submit"

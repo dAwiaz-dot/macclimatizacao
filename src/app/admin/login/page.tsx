@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { LoginForm } from "./LoginForm";
-import { isSupabaseConfigured } from "@/lib/supabase/env";
-import { SupabaseSetupNotice } from "@/components/admin/SupabaseSetupNotice";
+import { isAuthConfigured } from "@/lib/admin/env";
+import { AdminSetupNotice } from "@/components/admin/AdminSetupNotice";
 
 export const metadata: Metadata = {
   title: "Login do painel administrativo",
@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default function AdminLoginPage() {
-  if (!isSupabaseConfigured) {
-    return <SupabaseSetupNotice />;
+  if (!isAuthConfigured) {
+    return <AdminSetupNotice />;
   }
 
   return <LoginForm />;

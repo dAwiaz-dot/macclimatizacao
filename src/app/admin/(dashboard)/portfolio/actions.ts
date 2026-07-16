@@ -2,12 +2,19 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import { deleteImageByPublicUrl, uploadImage } from "@/lib/supabase/storage";
+import { deleteImage, uploadImage } from "@/lib/admin/blob-store";
+import {
+  createPortfolioItem,
+  deletePortfolioItem,
+  updatePortfolioItem,
+} from "@/lib/portfolio";
 
 export type PortfolioFormState = {
   error?: string;
 };
+
+const UPLOAD_ERROR =
+  "Não foi possível enviar a imagem. Verifique se o armazenamento está configurado (veja o README) e tente novamente.";
 
 export async function createPortfolioItemAction(
   _prevState: PortfolioFormState,
@@ -27,23 +34,18 @@ export async function createPortfolioItemAction(
 
   let imageUrl: string;
   try {
-    const uploaded = await uploadImage(image, "portfolio");
-    imageUrl = uploaded.publicUrl;
+    imageUrl = await uploadImage(image, "portfolio");
   } catch (err) {
-    return { error: err instanceof Error ? err.message : "Falha ao enviar a imagem." };
+    console.error("Erro ao enviar imagem do trabalho realizado:", err);
+    return { error: UPLOAD_ERROR };
   }
 
-  const supabase = createClient();
-  const { error } = await supabase.from("portfolio_items").insert({
+  await createPortfolioItem({
     title,
     description: description || null,
     service_date: serviceDate || null,
     image_url: imageUrl,
   });
-
-  if (error) {
-    return { error: `Não foi possível salvar o item: ${error.message}` };
-  }
 
   revalidatePath("/");
   revalidatePath("/admin/portfolio");
@@ -65,34 +67,26 @@ export async function updatePortfolioItemAction(
     return { error: "Informe um título para o trabalho realizado." };
   }
 
-  const supabase = createClient();
   let imageUrl = previousImageUrl;
 
   if (image && image.size > 0) {
     try {
-      const uploaded = await uploadImage(image, "portfolio");
-      imageUrl = uploaded.publicUrl;
+      imageUrl = await uploadImage(image, "portfolio");
     } catch (err) {
-      return { error: err instanceof Error ? err.message : "Falha ao enviar a imagem." };
+      console.error("Erro ao enviar imagem do trabalho realizado:", err);
+      return { error: UPLOAD_ERROR };
     }
     if (previousImageUrl) {
-      await deleteImageByPublicUrl(previousImageUrl);
+      await deleteImage(previousImageUrl);
     }
   }
 
-  const { error } = await supabase
-    .from("portfolio_items")
-    .update({
-      title,
-      description: description || null,
-      service_date: serviceDate || null,
-      image_url: imageUrl,
-    })
-    .eq("id", id);
-
-  if (error) {
-    return { error: `Não foi possível atualizar o item: ${error.message}` };
-  }
+  await updatePortfolioItem(id, {
+    title,
+    description: description || null,
+    service_date: serviceDate || null,
+    image_url: imageUrl,
+  });
 
   revalidatePath("/");
   revalidatePath("/admin/portfolio");
@@ -100,12 +94,8 @@ export async function updatePortfolioItemAction(
 }
 
 export async function deletePortfolioItemAction(id: string, imageUrl: string) {
-  const supabase = createClient();
-  const { error } = await supabase.from("portfolio_items").delete().eq("id", id);
-
-  if (!error) {
-    await deleteImageByPublicUrl(imageUrl);
-  }
+  await deletePortfolioItem(id);
+  await deleteImage(imageUrl);
 
   revalidatePath("/");
   revalidatePath("/admin/portfolio");

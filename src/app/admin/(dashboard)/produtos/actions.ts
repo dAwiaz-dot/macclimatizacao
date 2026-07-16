@@ -2,12 +2,15 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import { deleteImageByPublicUrl, uploadImage } from "@/lib/supabase/storage";
+import { deleteImage, uploadImage } from "@/lib/admin/blob-store";
+import { createProduct, deleteProduct, updateProduct } from "@/lib/products";
 
 export type ProductFormState = {
   error?: string;
 };
+
+const UPLOAD_ERROR =
+  "Não foi possível enviar a imagem. Verifique se o armazenamento está configurado (veja o README) e tente novamente.";
 
 export async function createProductAction(
   _prevState: ProductFormState,
@@ -26,20 +29,13 @@ export async function createProductAction(
 
   let imageUrl: string;
   try {
-    const uploaded = await uploadImage(image, "products");
-    imageUrl = uploaded.publicUrl;
+    imageUrl = await uploadImage(image, "products");
   } catch (err) {
-    return { error: err instanceof Error ? err.message : "Falha ao enviar a imagem." };
+    console.error("Erro ao enviar imagem do produto:", err);
+    return { error: UPLOAD_ERROR };
   }
 
-  const supabase = createClient();
-  const { error } = await supabase
-    .from("products")
-    .insert({ name, category, image_url: imageUrl });
-
-  if (error) {
-    return { error: `Não foi possível salvar o produto: ${error.message}` };
-  }
+  await createProduct({ name, category, image_url: imageUrl });
 
   revalidatePath("/");
   revalidatePath("/admin/produtos");
@@ -60,29 +56,21 @@ export async function updateProductAction(
     return { error: "Preencha o nome e a categoria do produto." };
   }
 
-  const supabase = createClient();
   let imageUrl = previousImageUrl;
 
   if (image && image.size > 0) {
     try {
-      const uploaded = await uploadImage(image, "products");
-      imageUrl = uploaded.publicUrl;
+      imageUrl = await uploadImage(image, "products");
     } catch (err) {
-      return { error: err instanceof Error ? err.message : "Falha ao enviar a imagem." };
+      console.error("Erro ao enviar imagem do produto:", err);
+      return { error: UPLOAD_ERROR };
     }
     if (previousImageUrl) {
-      await deleteImageByPublicUrl(previousImageUrl);
+      await deleteImage(previousImageUrl);
     }
   }
 
-  const { error } = await supabase
-    .from("products")
-    .update({ name, category, image_url: imageUrl })
-    .eq("id", id);
-
-  if (error) {
-    return { error: `Não foi possível atualizar o produto: ${error.message}` };
-  }
+  await updateProduct(id, { name, category, image_url: imageUrl });
 
   revalidatePath("/");
   revalidatePath("/admin/produtos");
@@ -90,12 +78,8 @@ export async function updateProductAction(
 }
 
 export async function deleteProductAction(id: string, imageUrl: string) {
-  const supabase = createClient();
-  const { error } = await supabase.from("products").delete().eq("id", id);
-
-  if (!error) {
-    await deleteImageByPublicUrl(imageUrl);
-  }
+  await deleteProduct(id);
+  await deleteImage(imageUrl);
 
   revalidatePath("/");
   revalidatePath("/admin/produtos");

@@ -4,8 +4,8 @@ Site institucional e landing page de conversão para a **Mac Climatização**,
 empresa de climatização e ar-condicionado que atende Alfenas e região (MG).
 
 Construído com Next.js (App Router), React, TypeScript, Tailwind CSS,
-Framer Motion, Lucide Icons e Supabase (autenticação, banco de dados e
-armazenamento de imagens) para o painel administrativo.
+Framer Motion, Lucide Icons e Vercel Blob (armazenamento de imagens e dados)
+para o painel administrativo.
 
 ---
 
@@ -27,32 +27,34 @@ pelo WhatsApp" com mensagem pré-preenchida mencionando o item.
 Não há carrinho, preços ou pagamento — o painel serve apenas para manter
 fotos e textos atualizados.
 
-### Configurando o Supabase (necessário para o painel funcionar)
+### Configurando o painel (necessário para funcionar)
 
-1. Crie uma conta gratuita em [supabase.com](https://supabase.com) e crie um
-   novo projeto.
-2. No painel do projeto, vá em **Project Settings → API** e copie a
-   **Project URL** e a chave **anon public**.
-3. Cole esses valores no seu `.env.local`:
+O login é simples (usuário e senha fixos, sem cadastro nem serviço externo de
+autenticação) e as fotos/dados ficam guardados no **Vercel Blob** — o mesmo
+provedor onde o site já vai estar hospedado, então não é preciso criar conta
+em mais nenhum lugar.
+
+1. No seu `.env.local`, defina:
    ```
-   NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxxx.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOi...
+   ADMIN_USERNAME=admin
+   ADMIN_PASSWORD=escolha-uma-senha-forte
+   ADMIN_SESSION_SECRET=um-texto-aleatorio-e-longo
    ```
-4. Vá em **SQL Editor**, cole o conteúdo do arquivo
-   `supabase/migrations/0001_init.sql` deste projeto e clique em **Run**.
-   Isso cria as tabelas `products` e `portfolio_items`, as políticas de
-   segurança (RLS) e o bucket de armazenamento público `site-uploads` para
-   as imagens.
-5. Crie o usuário administrador: vá em **Authentication → Users → Add
-   user**, informe um e-mail e senha (marque "Auto Confirm User"). Esse
-   será o login usado em `/admin/login`. Não existe tela pública de
-   cadastro — apenas esse usuário criado manualmente tem acesso.
-6. Rode o projeto (`npm run dev`) e acesse `http://localhost:3000/admin`
-   para entrar no painel.
+   `ADMIN_SESSION_SECRET` pode ser gerado com `openssl rand -hex 32` — serve
+   apenas para assinar o cookie de sessão, não precisa ser memorizado.
+2. Na Vercel, abra o projeto → aba **Storage** → **Create Database** →
+   **Blob**. Ao conectar o Blob store ao projeto, a variável
+   `BLOB_READ_WRITE_TOKEN` é criada automaticamente nas Environment
+   Variables do projeto — não precisa copiar nada manualmente em produção.
+3. Para rodar localmente com upload de imagens funcionando, copie o valor de
+   `BLOB_READ_WRITE_TOKEN` do dashboard da Vercel (Storage → seu Blob store →
+   `.env.local` tab) para o seu `.env.local`, ou rode `vercel env pull`.
+4. Rode o projeto (`npm run dev`) e acesse `http://localhost:3000/admin`
+   para entrar no painel com o usuário/senha definidos no passo 1.
 
 Sem essas variáveis configuradas, o site público continua funcionando
 normalmente — as seções de Produtos e Trabalhos Realizados apenas ficam
-vazias, e o painel `/admin` não consegue autenticar.
+vazias, e o painel `/admin` mostra um aviso pedindo a configuração.
 
 ---
 
@@ -131,7 +133,7 @@ src/
     servicos/              Lista de serviços
       [slug]/page.tsx      Página individual de cada serviço
     sobre/                Página "Sobre"
-    trabalhos-realizados/ Portfólio de trabalhos (dinâmico, via Supabase)
+    trabalhos-realizados/ Portfólio de trabalhos (dinâmico, via Vercel Blob)
     contato/              Contato + formulário
     politica-de-privacidade/
     termos-de-uso/
@@ -149,12 +151,10 @@ src/
     analytics/              Scripts de GA4 / GTM / Meta Pixel
   data/                     Dados fixos (empresa, serviços, FAQ, depoimentos)
   lib/                      Utilitários (WhatsApp, analytics, schema.org, produtos/portfólio)
-    supabase/               Clientes Supabase (browser, server, middleware, storage)
-  middleware.ts             Protege as rotas /admin e renova a sessão do Supabase
+    admin/                  Login (sessão via cookie assinado) e armazenamento (Vercel Blob)
+  middleware.ts             Protege as rotas /admin verificando o cookie de sessão
 public/
   images/                   Pasta para fotos reais (ver README dentro da pasta)
-supabase/
-  migrations/               SQL para criar tabelas, RLS e bucket de imagens
 ```
 
 ## Substituindo dados reais e imagens

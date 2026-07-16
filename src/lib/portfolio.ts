@@ -1,6 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
-import { createPublicClient } from "@/lib/supabase/public";
-import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { randomUUID } from "crypto";
+import { readJson, writeJson } from "@/lib/admin/blob-store";
 
 export type PortfolioItem = {
   id: string;
@@ -11,35 +10,68 @@ export type PortfolioItem = {
   created_at: string;
 };
 
-export async function getPortfolioItemById(id: string): Promise<PortfolioItem | null> {
-  const supabase = createClient();
-  const { data, error } = await supabase
-    .from("portfolio_items")
-    .select("*")
-    .eq("id", id)
-    .single();
+const PORTFOLIO_PATH = "data/portfolio.json";
 
-  if (error) {
-    console.error("Erro ao buscar item de portfólio:", error.message);
-    return null;
-  }
-
-  return data;
+async function readPortfolioItems(): Promise<PortfolioItem[]> {
+  return readJson<PortfolioItem[]>(PORTFOLIO_PATH, []);
 }
 
 export async function getPortfolioItems(): Promise<PortfolioItem[]> {
-  if (!isSupabaseConfigured) return [];
+  const items = await readPortfolioItems();
+  return [...items].sort((a, b) => b.created_at.localeCompare(a.created_at));
+}
 
-  const supabase = createPublicClient();
-  const { data, error } = await supabase
-    .from("portfolio_items")
-    .select("*")
-    .order("created_at", { ascending: false });
+export async function getPortfolioItemById(id: string): Promise<PortfolioItem | null> {
+  const items = await readPortfolioItems();
+  return items.find((item) => item.id === id) ?? null;
+}
 
-  if (error) {
-    console.error("Erro ao buscar portfólio:", error.message);
-    return [];
+export async function createPortfolioItem(input: {
+  title: string;
+  description: string | null;
+  service_date: string | null;
+  image_url: string;
+}): Promise<void> {
+  const items = await readPortfolioItems();
+  items.push({
+    id: randomUUID(),
+    title: input.title,
+    description: input.description,
+    service_date: input.service_date,
+    image_url: input.image_url,
+    created_at: new Date().toISOString(),
+  });
+  await writeJson(PORTFOLIO_PATH, items);
+}
+
+export async function updatePortfolioItem(
+  id: string,
+  input: {
+    title: string;
+    description: string | null;
+    service_date: string | null;
+    image_url: string;
   }
+): Promise<void> {
+  const items = await readPortfolioItems();
+  const next = items.map((item) =>
+    item.id === id
+      ? {
+          ...item,
+          title: input.title,
+          description: input.description,
+          service_date: input.service_date,
+          image_url: input.image_url,
+        }
+      : item
+  );
+  await writeJson(PORTFOLIO_PATH, next);
+}
 
-  return data ?? [];
+export async function deletePortfolioItem(id: string): Promise<void> {
+  const items = await readPortfolioItems();
+  await writeJson(
+    PORTFOLIO_PATH,
+    items.filter((item) => item.id !== id)
+  );
 }

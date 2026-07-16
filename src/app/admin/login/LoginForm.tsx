@@ -1,39 +1,29 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
-import { Loader2, Lock, Mail } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
+import { useFormState, useFormStatus } from "react-dom";
+import { Loader2, Lock, User } from "lucide-react";
+import { loginAction, type LoginFormState } from "@/lib/admin/auth-actions";
 import { Logo } from "@/components/layout/Logo";
 
+const initialState: LoginFormState = {};
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="flex w-full items-center justify-center gap-2 rounded-full bg-mac-sky-500 py-3 text-sm font-semibold text-white transition-colors hover:bg-mac-sky-600 disabled:opacity-60"
+    >
+      {pending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
+      Entrar
+    </button>
+  );
+}
+
 export function LoginForm() {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError(null);
-    setLoading(true);
-
-    const supabase = createClient();
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    setLoading(false);
-
-    if (signInError) {
-      setError("E-mail ou senha inválidos. Tente novamente.");
-      return;
-    }
-
-    router.replace("/admin");
-    router.refresh();
-  }
+  const [state, formAction] = useFormState(loginAction, initialState);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-airflow-gradient px-4">
@@ -45,25 +35,24 @@ export function LoginForm() {
           </h1>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+        <form action={formAction} className="mt-8 space-y-4">
           <div>
-            <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-mac-navy-700">
-              E-mail
+            <label htmlFor="username" className="mb-1.5 block text-sm font-medium text-mac-navy-700">
+              Usuário
             </label>
             <div className="relative">
-              <Mail
+              <User
                 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
                 aria-hidden="true"
               />
               <input
-                id="email"
-                type="email"
+                id="username"
+                name="username"
+                type="text"
                 required
                 autoComplete="username"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
                 className="form-input pl-9"
-                placeholder="seuemail@exemplo.com"
+                placeholder="usuário"
               />
             </div>
           </div>
@@ -79,31 +68,23 @@ export function LoginForm() {
               />
               <input
                 id="password"
+                name="password"
                 type="password"
                 required
                 autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
                 className="form-input pl-9"
                 placeholder="••••••••"
               />
             </div>
           </div>
 
-          {error && (
+          {state.error && (
             <p role="alert" className="text-sm font-medium text-red-600">
-              {error}
+              {state.error}
             </p>
           )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-mac-sky-500 py-3 text-sm font-semibold text-white transition-colors hover:bg-mac-sky-600 disabled:opacity-60"
-          >
-            {loading && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
-            Entrar
-          </button>
+          <SubmitButton />
         </form>
       </div>
     </div>

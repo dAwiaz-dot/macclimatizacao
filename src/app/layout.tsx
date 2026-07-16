@@ -45,14 +45,14 @@ export const metadata: Metadata = {
     title: "Mac Climatização | Ar-Condicionado em Alfenas e Região",
     description:
       "Venda, instalação, manutenção, reparo e higienização de ar-condicionado em Alfenas e região.",
-    images: ["/images/logo/mac-climatizacao-logo.jpg"],
+    images: ["/images/logo/mac-climatizacao-logo-full.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "Mac Climatização | Ar-Condicionado em Alfenas e Região",
     description:
       "Venda, instalação, manutenção, reparo e higienização de ar-condicionado em Alfenas e região.",
-    images: ["/images/logo/mac-climatizacao-logo.jpg"],
+    images: ["/images/logo/mac-climatizacao-logo-full.png"],
   },
   verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
     ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }

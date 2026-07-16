@@ -17,7 +17,7 @@ export const faqItems: FaqItem[] = [
   {
     question: "Como solicitar um orçamento?",
     answer:
-      "Basta entrar em contato pelo WhatsApp (35) 98827-3068 ou preencher o formulário do site com os detalhes do seu equipamento e do serviço desejado.",
+      "Basta entrar em contato pelo WhatsApp (35) 99957-4681 ou preencher o formulário do site com os detalhes do seu equipamento e do serviço desejado.",
   },
   {
     question: "Vocês vendem aparelhos de ar-condicionado?",

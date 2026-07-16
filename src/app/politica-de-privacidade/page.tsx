@@ -67,7 +67,7 @@ export default function PoliticaDePrivacidadePage() {
             </h2>
             <p className="mt-2">
               Em caso de dúvidas sobre esta Política de Privacidade, entre em
-              contato pelo WhatsApp (35) 98827-3068.
+              contato pelo WhatsApp (35) 99957-4681.
             </p>
           </section>
         </div>

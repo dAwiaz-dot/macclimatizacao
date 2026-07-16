@@ -5,12 +5,12 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { QuoteForm } from "@/components/sections/QuoteForm";
 import { ServiceArea } from "@/components/sections/ServiceArea";
 import { company } from "@/data/company";
-import { buildWhatsAppUrl, defaultWhatsAppMessage, whatsAppUrlDefault } from "@/lib/whatsapp";
+import { whatsAppUrlDefault } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Contato",
   description:
-    "Fale com a Mac Climatização pelo WhatsApp (35) 98827-3068 e solicite seu orçamento de ar-condicionado em Alfenas e região.",
+    "Fale com a Mac Climatização pelo WhatsApp (35) 99957-4681 e solicite seu orçamento de ar-condicionado em Alfenas e região.",
   alternates: { canonical: "/contato" },
 };
 
@@ -20,13 +20,6 @@ const contactChannels = [
     label: "WhatsApp",
     value: company.whatsappDisplay,
     href: whatsAppUrlDefault(),
-    external: true,
-  },
-  {
-    icon: MessageCircle,
-    label: "WhatsApp (2ª linha)",
-    value: company.whatsappDisplaySecondary,
-    href: buildWhatsAppUrl(defaultWhatsAppMessage, company.whatsappNumberSecondary),
     external: true,
   },
   {

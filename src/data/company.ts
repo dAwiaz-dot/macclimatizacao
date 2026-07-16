@@ -13,13 +13,9 @@ export const company = {
   // Cidades confirmadas de atendimento. Adicione outras somente quando confirmadas.
   citiesServed: ["Alfenas"],
 
-  whatsappNumber: "5535988273068", // 55 35 98827-3068
-  whatsappDisplay: "(35) 98827-3068",
-  phoneDisplay: "(35) 98827-3068",
-
-  // Segundo WhatsApp confirmado nas publicações do Instagram da empresa.
-  whatsappNumberSecondary: "5535999574681", // 55 35 99957-4681
-  whatsappDisplaySecondary: "(35) 99957-4681",
+  whatsappNumber: "5535999574681", // 55 35 99957-4681
+  whatsappDisplay: "(35) 99957-4681",
+  phoneDisplay: "(35) 99957-4681",
 
   instagramUrl: "https://www.instagram.com/macclimatizacao_arcondicionado/",
   instagramHandle: "@macclimatizacao_arcondicionado",

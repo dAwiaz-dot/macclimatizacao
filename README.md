@@ -20,8 +20,8 @@ via navegador headless e confirmar dados reais direto das publicações:
   também usado como favicon).
 - **Endereço confirmado**: Avenida Henrique Munhoz Garcia, 374 – Morada do
   Sol, Alfenas/MG.
-- **Segundo WhatsApp**: (35) 99957-4681, além do (35) 98827-3068 informado
-  originalmente.
+- **WhatsApp confirmado nas publicações**: (35) 99957-4681, definido como o
+  número principal usado em todos os botões do site.
 - **Dois serviços adicionais** mencionados nas publicações: Laudo técnico e
   Venda de insumos.
 
@@ -65,7 +65,7 @@ Acesse [http://localhost:3000](http://localhost:3000).
 Copie `.env.example` para `.env.local` e preencha conforme necessário:
 
 - `NEXT_PUBLIC_SITE_URL` — URL pública do site (usada em metadados, sitemap e dados estruturados).
-- `NEXT_PUBLIC_WHATSAPP_NUMBER` — número de WhatsApp no formato internacional (já preenchido com `5535988273068`).
+- `NEXT_PUBLIC_WHATSAPP_NUMBER` — número de WhatsApp no formato internacional (já preenchido com `5535999574681`).
 - `NEXT_PUBLIC_GA_ID` — Measurement ID do Google Analytics 4 (opcional).
 - `NEXT_PUBLIC_GTM_ID` — ID do container do Google Tag Manager (opcional).
 - `NEXT_PUBLIC_META_PIXEL_ID` — ID do Meta Pixel (opcional).
@@ -134,7 +134,7 @@ A lista de cidades confirmadas está em `citiesServed`, dentro de
 
 ## WhatsApp
 
-Todos os botões de WhatsApp usam o número `5535988273068` e geram mensagens
+Todos os botões de WhatsApp usam o número `5535999574681` e geram mensagens
 automáticas contextuais (diferentes para cada serviço, diagnóstico rápido ou
 formulário de orçamento). A lógica está centralizada em `src/lib/whatsapp.ts`.
 

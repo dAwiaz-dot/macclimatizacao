@@ -3,11 +3,7 @@ import { Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Logo } from "./Logo";
 import { company } from "@/data/company";
 import { services } from "@/data/services";
-import {
-  buildWhatsAppUrl,
-  defaultWhatsAppMessage,
-  whatsAppUrlDefault,
-} from "@/lib/whatsapp";
+import { whatsAppUrlDefault } from "@/lib/whatsapp";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -16,7 +12,7 @@ export function Footer() {
     <footer className="bg-mac-navy-800 text-ice-100">
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
         <div className="lg:col-span-2">
-          <Logo light />
+          <Logo />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-ice-100/80">
             Soluções de climatização para casas, comércios e empresas em Alfenas
             e região: venda, instalação, manutenção, reparo e higienização de
@@ -31,15 +27,6 @@ export function Footer() {
             >
               <MessageCircle className="h-4 w-4" aria-hidden="true" />
               WhatsApp: {company.whatsappDisplay}
-            </a>
-            <a
-              href={buildWhatsAppUrl(defaultWhatsAppMessage, company.whatsappNumberSecondary)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:text-mac-sky-300"
-            >
-              <MessageCircle className="h-4 w-4" aria-hidden="true" />
-              WhatsApp: {company.whatsappDisplaySecondary}
             </a>
             <a
               href={`tel:+${company.whatsappNumber}`}

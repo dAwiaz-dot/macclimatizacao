@@ -56,7 +56,7 @@ export default function TermosDeUsoPage() {
             </h2>
             <p className="mt-2">
               Dúvidas sobre estes Termos de Uso podem ser esclarecidas pelo
-              WhatsApp (35) 98827-3068.
+              WhatsApp (35) 99957-4681.
             </p>
           </section>
         </div>

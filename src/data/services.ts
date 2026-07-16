@@ -162,18 +162,18 @@ export const services: Service[] = [
     slug: "venda-de-insumos",
     name: "Venda de insumos",
     shortDescription:
-      "Venda de peças e insumos utilizados na instalação, manutenção e reparo de ar-condicionado.",
+      "Venda de insumos para instalação e refrigeração, incluindo peças utilizados na manutenção e reparo de ar-condicionado.",
     icon: PackageSearch,
     description: [
-      "Além dos serviços de instalação e manutenção, também fornecemos peças e insumos necessários para o funcionamento do seu ar-condicionado.",
+      "Além dos serviços de instalação e manutenção, também fornecemos insumos para instalação e refrigeração, incluindo peças necessárias para o funcionamento do seu ar-condicionado.",
       "Fale com nossa equipe informando o que você precisa para verificarmos a disponibilidade.",
     ],
     highlights: [
-      "Peças e insumos para ar-condicionado",
-      "Apoio para instalação e manutenção",
+      "Insumos para instalação",
+      "Insumos para refrigeração",
       "Consulte disponibilidade com nossa equipe",
     ],
-    whatsappContext: "compra de insumos para ar-condicionado",
+    whatsappContext: "compra de insumos para instalação ou refrigeração",
   },
 ];
 

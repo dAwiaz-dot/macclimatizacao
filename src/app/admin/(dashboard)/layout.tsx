@@ -42,7 +42,7 @@ export default async function AdminDashboardLayout({
         <aside className="flex flex-col justify-between border-b border-mac-navy-100 bg-mac-navy-800 p-6 lg:min-h-screen lg:w-64 lg:border-b-0 lg:border-r">
           <div>
             <div className="mb-8">
-              <Logo variant="light" />
+              <Logo />
               <p className="mt-2 text-xs text-ice-100/60">Painel administrativo</p>
             </div>
             <nav className="flex flex-row gap-2 lg:flex-col">

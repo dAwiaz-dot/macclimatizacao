@@ -2,10 +2,17 @@
 
 import { whatsAppUrlDefault } from "@/lib/whatsapp";
 import { trackEvent } from "@/lib/analytics";
+import { useHideOnFooter } from "@/hooks/useHideOnFooter";
 
 export function MobileCTA() {
+  const hidden = useHideOnFooter();
+
   return (
-    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-mac-navy-100 bg-white/95 p-3 backdrop-blur sm:hidden">
+    <div
+      className={`fixed inset-x-0 bottom-0 z-30 border-t border-mac-navy-100 bg-white/95 p-3 backdrop-blur transition-transform duration-200 sm:hidden ${
+        hidden ? "translate-y-full" : "translate-y-0"
+      }`}
+    >
       <a
         href={whatsAppUrlDefault()}
         target="_blank"

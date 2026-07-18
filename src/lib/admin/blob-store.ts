@@ -16,7 +16,12 @@ export async function listJson<T>(prefix: string): Promise<T[]> {
     const items = await Promise.all(
       blobs.map(async (blob) => {
         try {
-          const res = await fetch(`${blob.url}?t=${Date.now()}`, { cache: "no-store" });
+          // No explicit cache option: static/ISR pages need this fetch to
+          // follow the page's own revalidate setting (Next.js throws if a
+          // "no-store" fetch runs inside a statically-rendered route), while
+          // dynamic admin pages already default to no-store on their own.
+          // Freshness after a mutation comes from revalidatePath, not this.
+          const res = await fetch(blob.url);
           if (!res.ok) return null;
           return (await res.json()) as T;
         } catch {
@@ -39,7 +44,7 @@ export async function readJson<T>(pathname: string): Promise<T | null> {
     const blob = blobs.find((b) => b.pathname === pathname);
     if (!blob) return null;
 
-    const res = await fetch(`${blob.url}?t=${Date.now()}`, { cache: "no-store" });
+    const res = await fetch(blob.url);
     if (!res.ok) return null;
 
     return (await res.json()) as T;

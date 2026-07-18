@@ -48,6 +48,7 @@ export async function createPortfolioItemAction(
   });
 
   revalidatePath("/");
+  revalidatePath("/trabalhos-realizados");
   revalidatePath("/admin/portfolio");
   redirect("/admin/portfolio");
 }
@@ -89,6 +90,7 @@ export async function updatePortfolioItemAction(
   });
 
   revalidatePath("/");
+  revalidatePath("/trabalhos-realizados");
   revalidatePath("/admin/portfolio");
   redirect("/admin/portfolio");
 }
@@ -98,5 +100,6 @@ export async function deletePortfolioItemAction(id: string, imageUrl: string) {
   await deleteImage(imageUrl);
 
   revalidatePath("/");
+  revalidatePath("/trabalhos-realizados");
   revalidatePath("/admin/portfolio");
 }

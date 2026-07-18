@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { readJson, writeJson } from "@/lib/admin/blob-store";
+import { deleteJson, listJson, readJson, writeJson } from "@/lib/admin/blob-store";
 
 export type Product = {
   id: string;
@@ -9,20 +9,16 @@ export type Product = {
   created_at: string;
 };
 
-const PRODUCTS_PATH = "data/products.json";
-
-async function readProducts(): Promise<Product[]> {
-  return readJson<Product[]>(PRODUCTS_PATH, []);
-}
+const PRODUCTS_PREFIX = "data/products/";
+const productPath = (id: string) => `${PRODUCTS_PREFIX}${id}.json`;
 
 export async function getProducts(): Promise<Product[]> {
-  const products = await readProducts();
-  return [...products].sort((a, b) => b.created_at.localeCompare(a.created_at));
+  const products = await listJson<Product>(PRODUCTS_PREFIX);
+  return products.sort((a, b) => b.created_at.localeCompare(a.created_at));
 }
 
 export async function getProductById(id: string): Promise<Product | null> {
-  const products = await readProducts();
-  return products.find((product) => product.id === id) ?? null;
+  return readJson<Product>(productPath(id));
 }
 
 export async function getProductCategories(): Promise<string[]> {
@@ -35,39 +31,30 @@ export async function createProduct(input: {
   category: string;
   image_url: string;
 }): Promise<void> {
-  const products = await readProducts();
-  products.push({
+  const product: Product = {
     id: randomUUID(),
     name: input.name,
     category: input.category,
     image_url: input.image_url,
     created_at: new Date().toISOString(),
-  });
-  await writeJson(PRODUCTS_PATH, products);
+  };
+  await writeJson(productPath(product.id), product);
 }
 
 export async function updateProduct(
   id: string,
   input: { name: string; category: string; image_url: string }
 ): Promise<void> {
-  const products = await readProducts();
-  const next = products.map((product) =>
-    product.id === id
-      ? {
-          ...product,
-          name: input.name,
-          category: input.category,
-          image_url: input.image_url,
-        }
-      : product
-  );
-  await writeJson(PRODUCTS_PATH, next);
+  const existing = await getProductById(id);
+  await writeJson(productPath(id), {
+    id,
+    name: input.name,
+    category: input.category,
+    image_url: input.image_url,
+    created_at: existing?.created_at ?? new Date().toISOString(),
+  });
 }
 
 export async function deleteProduct(id: string): Promise<void> {
-  const products = await readProducts();
-  await writeJson(
-    PRODUCTS_PATH,
-    products.filter((product) => product.id !== id)
-  );
+  await deleteJson(productPath(id));
 }

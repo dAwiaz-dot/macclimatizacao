@@ -16,6 +16,11 @@ type Props = {
  * fotos reais — remova este componente e o selo junto.
  */
 export function DemoImage({ src, alt, className, priority }: Props) {
+  // Fotos enviadas pelo painel admin ficam no Vercel Blob (URL completa);
+  // as imagens de demonstração que vieram no template usam /images/ local.
+  // Só a foto de demonstração leva o selo — foto real do cliente não.
+  const isDemo = src.startsWith("/images/");
+
   return (
     <div className={clsx("relative overflow-hidden", className)}>
       <Image
@@ -26,9 +31,11 @@ export function DemoImage({ src, alt, className, priority }: Props) {
         className="object-cover"
         sizes="(max-width: 768px) 100vw, 50vw"
       />
-      <span className="absolute bottom-3 right-3 rounded-full bg-mac-navy-900/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">
-        Foto ilustrativa — substituir
-      </span>
+      {isDemo && (
+        <span className="absolute bottom-3 right-3 rounded-full bg-mac-navy-900/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">
+          Foto ilustrativa — substituir
+        </span>
+      )}
     </div>
   );
 }

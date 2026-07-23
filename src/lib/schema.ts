@@ -1,6 +1,6 @@
 import { company, siteUrl } from "@/data/company";
-import { faqItems } from "@/data/faq";
-import { services } from "@/data/services";
+import { getFaqItems } from "@/lib/faq";
+import { getServices } from "@/lib/services-content";
 
 export function getLocalBusinessSchema() {
   return {
@@ -35,7 +35,8 @@ export function getLocalBusinessSchema() {
   };
 }
 
-export function getServiceListSchema() {
+export async function getServiceListSchema() {
+  const services = await getServices();
   return services.map((service) => ({
     "@context": "https://schema.org",
     "@type": "Service",
@@ -52,7 +53,8 @@ export function getServiceListSchema() {
   }));
 }
 
-export function getFaqSchema() {
+export async function getFaqSchema() {
+  const faqItems = await getFaqItems();
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",

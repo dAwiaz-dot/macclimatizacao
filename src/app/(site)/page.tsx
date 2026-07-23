@@ -26,19 +26,24 @@ export const metadata: Metadata = {
 // instantaneamente via revalidatePath quando o admin salva alterações).
 export const revalidate = 3600;
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [faqSchema, serviceListSchema] = await Promise.all([
+    getFaqSchema(),
+    getServiceListSchema(),
+  ]);
+
   return (
     <>
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(getFaqSchema()) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getServiceListSchema()),
+          __html: JSON.stringify(serviceListSchema),
         }}
       />
 

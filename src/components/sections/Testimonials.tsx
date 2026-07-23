@@ -2,10 +2,12 @@ import { Star } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
-import { testimonials } from "@/data/testimonials";
+import { getTestimonials } from "@/lib/testimonials";
 import { company } from "@/data/company";
 
-export function Testimonials() {
+export async function Testimonials() {
+  const testimonials = await getTestimonials();
+
   return (
     <section id="avaliacoes" className="bg-white py-20 sm:py-24">
       <Container>
@@ -19,7 +21,7 @@ export function Testimonials() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {testimonials.map((testimonial) => (
                 <div
-                  key={testimonial.name}
+                  key={testimonial.id}
                   className="rounded-2xl border border-mac-navy-100 bg-ice-50 p-6"
                 >
                   <div className="flex items-center gap-1 text-mac-sky-500">

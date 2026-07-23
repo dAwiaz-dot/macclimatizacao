@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ServiceCard } from "@/components/sections/ServiceCard";
-import { services } from "@/data/services";
+import { getServices } from "@/lib/services-content";
 
 export const metadata: Metadata = {
   title: "Serviços de Ar-Condicionado em Alfenas",
@@ -11,7 +11,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/servicos" },
 };
 
-export default function ServicosPage() {
+export default async function ServicosPage() {
+  const services = await getServices();
+
   return (
     <section className="bg-ice-gradient py-28 sm:py-32">
       <Container>
@@ -22,8 +24,8 @@ export default function ServicosPage() {
         />
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, index) => (
-            <ServiceCard key={service.slug} slug={service.slug} index={index} />
+          {services.map(({ icon, ...service }, index) => (
+            <ServiceCard key={service.slug} service={service} index={index} />
           ))}
         </div>
       </Container>

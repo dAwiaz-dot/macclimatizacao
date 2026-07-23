@@ -19,6 +19,7 @@ export type Service = {
   description: string[];
   highlights: string[];
   whatsappContext: string;
+  image_url?: string;
 };
 
 export const services: Service[] = [

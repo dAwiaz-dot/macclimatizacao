@@ -74,7 +74,7 @@ export async function deleteJson(pathname: string): Promise<void> {
 
 export async function uploadImage(
   file: File,
-  folder: "products" | "portfolio"
+  folder: "products" | "portfolio" | "content" | "services"
 ): Promise<string> {
   const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
   const pathname = `${folder}/${Date.now()}-${safeName}`;

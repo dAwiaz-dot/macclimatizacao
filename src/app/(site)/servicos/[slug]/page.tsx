@@ -4,7 +4,9 @@ import { CheckCircle2, MessageCircle } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
-import { getServiceBySlug, services } from "@/data/services";
+import { DemoImage } from "@/components/ui/DemoImage";
+import { services } from "@/data/services";
+import { getServiceBySlug } from "@/lib/services-content";
 import { company } from "@/data/company";
 import { whatsAppUrlForService } from "@/lib/whatsapp";
 
@@ -16,8 +18,8 @@ export function generateStaticParams() {
   return services.map((service) => ({ slug: service.slug }));
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const service = getServiceBySlug(params.slug);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const service = await getServiceBySlug(params.slug);
   if (!service) return {};
 
   return {
@@ -27,8 +29,8 @@ export function generateMetadata({ params }: Props): Metadata {
   };
 }
 
-export default function ServiceDetailPage({ params }: Props) {
-  const service = getServiceBySlug(params.slug);
+export default async function ServiceDetailPage({ params }: Props) {
+  const service = await getServiceBySlug(params.slug);
   if (!service) notFound();
 
   const Icon = service.icon;
@@ -79,10 +81,18 @@ export default function ServiceDetailPage({ params }: Props) {
           </Button>
         </div>
 
-        <PlaceholderImage
-          label={`Foto real de ${service.name.toLowerCase()} — Mac Climatização`}
-          className="aspect-[4/3] w-full rounded-3xl"
-        />
+        {service.image_url ? (
+          <DemoImage
+            src={service.image_url}
+            alt={`Foto de ${service.name.toLowerCase()} — Mac Climatização`}
+            className="aspect-[4/3] w-full rounded-3xl"
+          />
+        ) : (
+          <PlaceholderImage
+            label={`Foto real de ${service.name.toLowerCase()} — Mac Climatização`}
+            className="aspect-[4/3] w-full rounded-3xl"
+          />
+        )}
       </Container>
     </article>
   );

@@ -2,7 +2,18 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
-import { LayoutDashboard, LogOut, Package, Images, ExternalLink, Tags } from "lucide-react";
+import {
+  LayoutDashboard,
+  LogOut,
+  Package,
+  Images,
+  ExternalLink,
+  Tags,
+  FileText,
+  Wrench,
+  MessageSquareQuote,
+  HelpCircle,
+} from "lucide-react";
 import { signOutAction } from "@/lib/admin/auth-actions";
 import { isAuthConfigured } from "@/lib/admin/env";
 import { isValidSessionToken, SESSION_COOKIE } from "@/lib/admin/session";
@@ -15,9 +26,13 @@ export const metadata: Metadata = {
 
 const navItems = [
   { href: "/admin", label: "Início", icon: LayoutDashboard },
+  { href: "/admin/conteudo", label: "Conteúdo do site", icon: FileText },
   { href: "/admin/produtos", label: "Produtos", icon: Package },
   { href: "/admin/categorias", label: "Categorias", icon: Tags },
+  { href: "/admin/servicos", label: "Serviços", icon: Wrench },
   { href: "/admin/portfolio", label: "Trabalhos realizados", icon: Images },
+  { href: "/admin/depoimentos", label: "Depoimentos", icon: MessageSquareQuote },
+  { href: "/admin/faq", label: "Perguntas frequentes", icon: HelpCircle },
 ];
 
 export default async function AdminDashboardLayout({

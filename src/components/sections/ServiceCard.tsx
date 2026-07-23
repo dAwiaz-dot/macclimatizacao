@@ -3,16 +3,23 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { getServiceBySlug } from "@/data/services";
+import { getServiceBySlug as getBaseServiceBySlug, type Service } from "@/data/services";
 import { Button } from "@/components/ui/Button";
 import { whatsAppUrlForService } from "@/lib/whatsapp";
 import { trackEvent } from "@/lib/analytics";
 
-export function ServiceCard({ slug, index }: { slug: string; index: number }) {
-  const service = getServiceBySlug(slug);
-  if (!service) return null;
-
-  const Icon = service.icon;
+// O ícone é um componente (função) e não pode atravessar o limite
+// servidor->cliente dentro de "service"; o slug identifica o ícone certo
+// a partir dos dados estáticos, que já são importados no bundle do cliente.
+export function ServiceCard({
+  service,
+  index,
+}: {
+  service: Omit<Service, "icon">;
+  index: number;
+}) {
+  const Icon = getBaseServiceBySlug(service.slug)?.icon;
+  if (!Icon) return null;
 
   return (
     <motion.div

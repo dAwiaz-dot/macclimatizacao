@@ -4,8 +4,10 @@ import { useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import Image from "next/image";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import type { ProductFormState } from "./actions";
 import type { Product } from "@/lib/products";
+import type { Category } from "@/lib/categories";
 
 function SubmitButton({ label }: { label: string }) {
   const { pending } = useFormStatus();
@@ -24,10 +26,12 @@ function SubmitButton({ label }: { label: string }) {
 export function ProductForm({
   action,
   product,
+  categories,
   submitLabel,
 }: {
   action: (state: ProductFormState, formData: FormData) => Promise<ProductFormState>;
   product?: Product;
+  categories: Category[];
   submitLabel: string;
 }) {
   const [state, formAction] = useFormState(action, {});
@@ -57,14 +61,33 @@ export function ProductForm({
         <label htmlFor="category" className="mb-1.5 block text-sm font-medium text-mac-navy-700">
           Categoria
         </label>
-        <input
+        <select
           id="category"
           name="category"
           required
-          defaultValue={product?.category}
+          defaultValue={product?.category ?? ""}
           className="form-input"
-          placeholder="Ex.: Split, Cassete, Piso-teto..."
-        />
+        >
+          <option value="" disabled>
+            Selecione uma categoria
+          </option>
+          {product &&
+            !categories.some((category) => category.name === product.category) && (
+              <option value={product.category}>{product.category}</option>
+            )}
+          {categories.map((category) => (
+            <option key={category.id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+        <p className="mt-1 text-xs text-slate-500">
+          Precisa de uma categoria nova?{" "}
+          <Link href="/admin/categorias" className="font-medium text-mac-sky-600 hover:underline">
+            Gerencie as categorias aqui
+          </Link>
+          .
+        </p>
       </div>
 
       <div>

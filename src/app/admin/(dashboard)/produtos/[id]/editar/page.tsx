@@ -2,13 +2,17 @@ import { notFound } from "next/navigation";
 import { ProductForm } from "../../ProductForm";
 import { updateProductAction } from "../../actions";
 import { getProductById } from "@/lib/products";
+import { getCategories } from "@/lib/categories";
 
 export default async function EditarProdutoPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const product = await getProductById(params.id);
+  const [product, categories] = await Promise.all([
+    getProductById(params.id),
+    getCategories(),
+  ]);
   if (!product) notFound();
 
   const boundAction = updateProductAction.bind(null, product.id);
@@ -24,6 +28,7 @@ export default async function EditarProdutoPage({
         <ProductForm
           action={boundAction}
           product={product}
+          categories={categories}
           submitLabel="Salvar alterações"
         />
       </div>

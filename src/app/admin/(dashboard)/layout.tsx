@@ -2,7 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
-import { LayoutDashboard, LogOut, Package, Images, ExternalLink } from "lucide-react";
+import { LayoutDashboard, LogOut, Package, Images, ExternalLink, Tags } from "lucide-react";
 import { signOutAction } from "@/lib/admin/auth-actions";
 import { isAuthConfigured } from "@/lib/admin/env";
 import { isValidSessionToken, SESSION_COOKIE } from "@/lib/admin/session";
@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 const navItems = [
   { href: "/admin", label: "Início", icon: LayoutDashboard },
   { href: "/admin/produtos", label: "Produtos", icon: Package },
+  { href: "/admin/categorias", label: "Categorias", icon: Tags },
   { href: "/admin/portfolio", label: "Trabalhos realizados", icon: Images },
 ];
 

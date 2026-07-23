@@ -12,6 +12,7 @@ declare global {
 
 export type AnalyticsEventName =
   | "whatsapp_click"
+  | "instagram_click"
   | "phone_click"
   | "quote_request"
   | "service_view"

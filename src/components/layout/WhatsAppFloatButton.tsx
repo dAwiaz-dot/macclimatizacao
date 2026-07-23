@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageCircle } from "lucide-react";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { whatsAppUrlDefault } from "@/lib/whatsapp";
 import { trackEvent } from "@/lib/analytics";
 import { useHideOnFooter } from "@/hooks/useHideOnFooter";
@@ -19,7 +19,7 @@ export function WhatsAppFloatButton() {
         hidden ? "pointer-events-none translate-y-4 opacity-0" : "opacity-100"
       }`}
     >
-      <MessageCircle className="h-7 w-7" fill="white" aria-hidden="true" />
+      <WhatsAppIcon className="h-7 w-7" />
     </a>
   );
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Instagram, MapPin, Phone } from "lucide-react";
 import { Logo } from "./Logo";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { company } from "@/data/company";
 import { services } from "@/data/services";
 import { whatsAppUrlDefault } from "@/lib/whatsapp";
@@ -25,7 +26,7 @@ export function Footer() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 hover:text-mac-sky-300"
             >
-              <MessageCircle className="h-4 w-4" aria-hidden="true" />
+              <WhatsAppIcon className="h-4 w-4" />
               WhatsApp: {company.whatsappDisplay}
             </a>
             <a

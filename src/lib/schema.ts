@@ -31,7 +31,7 @@ export function getLocalBusinessSchema() {
           addressRegion: company.state,
           addressCountry: "BR",
         },
-    sameAs: [company.instagramUrl],
+    sameAs: [company.instagramUrl, company.facebookUrl],
   };
 }
 

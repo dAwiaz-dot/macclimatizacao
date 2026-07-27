@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Instagram, MapPin, Phone } from "lucide-react";
+import { Facebook, Instagram, MapPin, Phone } from "lucide-react";
 import { Logo } from "./Logo";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { company } from "@/data/company";
@@ -44,6 +44,15 @@ export function Footer() {
             >
               <Instagram className="h-4 w-4" aria-hidden="true" />
               {company.instagramHandle}
+            </a>
+            <a
+              href={company.facebookUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-mac-sky-300"
+            >
+              <Facebook className="h-4 w-4" aria-hidden="true" />
+              Facebook
             </a>
             <span className="flex items-start gap-2 text-ice-100/80">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />

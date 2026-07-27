@@ -19,6 +19,7 @@ export const company = {
 
   instagramUrl: "https://www.instagram.com/macclimatizacao_arcondicionado/",
   instagramHandle: "@macclimatizacao_arcondicionado",
+  facebookUrl: "https://www.facebook.com/profile.php?id=61581232915365",
   googleMapsUrl: "https://share.google/3yOb5cXYNQsYpJWS6",
 
   // Endereço confirmado nas publicações do Instagram da empresa.

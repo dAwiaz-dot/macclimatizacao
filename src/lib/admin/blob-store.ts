@@ -1,75 +1,78 @@
-import { del, list, put } from "@vercel/blob";
-import { isBlobConfigured } from "./env";
+import { mkdir, readdir, readFile, rm, writeFile } from "fs/promises";
+import path from "path";
 
-// Each record is stored as its OWN blob file (data/<collection>/<id>.json)
-// instead of one shared JSON array. Vercel Blob is an eventually-consistent,
-// CDN-backed store — a shared "read whole array, modify, overwrite" pattern
-// races under rapid writes and silently loses entries. Giving each record
-// its own immutable-by-default file avoids that entirely: creating a record
-// only ever writes a brand-new path, never touches another record's file.
+// Armazenamento em disco local (funciona em qualquer host com filesystem
+// persistente, como um Volume do Railway) — substitui o antigo Vercel Blob.
+// Cada registro continua sendo o seu próprio arquivo (mesmo esquema de
+// caminhos de antes: data/<coleção>/<id>.json), só que gravado direto no
+// disco em vez de subir para um serviço externo.
+//
+// DATA_ROOT deve apontar para um diretório persistente entre deploys. No
+// Railway, crie um Volume e defina DATA_ROOT com o caminho de montagem dele
+// (ex.: /data). Sem essa variável, os dados ficam em ./.data dentro do
+// projeto — ótimo para rodar localmente, mas não sobrevive a um redeploy
+// num host com filesystem efêmero.
+const DATA_ROOT = process.env.DATA_ROOT || path.join(process.cwd(), ".data");
+const JSON_DIR = path.join(DATA_ROOT, "data");
+const UPLOADS_DIR = path.join(DATA_ROOT, "uploads");
 
-export async function listJson<T>(prefix: string): Promise<T[]> {
-  if (!isBlobConfigured) return [];
-
-  try {
-    const { blobs } = await list({ prefix });
-    const items = await Promise.all(
-      blobs.map(async (blob) => {
-        try {
-          // No explicit cache option: static/ISR pages need this fetch to
-          // follow the page's own revalidate setting (Next.js throws if a
-          // "no-store" fetch runs inside a statically-rendered route), while
-          // dynamic admin pages already default to no-store on their own.
-          // Freshness after a mutation comes from revalidatePath, not this.
-          const res = await fetch(blob.url);
-          if (!res.ok) return null;
-          return (await res.json()) as T;
-        } catch {
-          return null;
-        }
-      })
-    );
-    return items.filter((item): item is Awaited<T> => item !== null);
-  } catch (err) {
-    console.error(`Erro ao listar ${prefix} do Blob:`, err);
-    return [];
-  }
+function jsonFilePath(pathname: string): string {
+  // pathname vem no formato "data/<coleção>/<id>.json" — removemos o
+  // prefixo "data/" pois já é a raiz de JSON_DIR.
+  const relative = pathname.startsWith("data/") ? pathname.slice(5) : pathname;
+  return path.join(JSON_DIR, relative);
 }
 
-export async function readJson<T>(pathname: string): Promise<T | null> {
-  if (!isBlobConfigured) return null;
-
+async function readJsonFile<T>(filePath: string): Promise<T | null> {
   try {
-    const { blobs } = await list({ prefix: pathname, limit: 1 });
-    const blob = blobs.find((b) => b.pathname === pathname);
-    if (!blob) return null;
-
-    const res = await fetch(blob.url);
-    if (!res.ok) return null;
-
-    return (await res.json()) as T;
-  } catch (err) {
-    console.error(`Erro ao ler ${pathname} do Blob:`, err);
+    const raw = await readFile(filePath, "utf-8");
+    return JSON.parse(raw) as T;
+  } catch {
     return null;
   }
 }
 
+export async function listJson<T>(prefix: string): Promise<T[]> {
+  const dirPath = jsonFilePath(prefix);
+
+  let entries: string[];
+  try {
+    entries = await readdir(dirPath);
+  } catch {
+    return [];
+  }
+
+  const items = await Promise.all(
+    entries
+      .filter((name) => name.endsWith(".json"))
+      .map((name) => readJsonFile<T>(path.join(dirPath, name)))
+  );
+
+  return items.filter((item): item is Awaited<T> => item !== null);
+}
+
+export async function readJson<T>(pathname: string): Promise<T | null> {
+  return readJsonFile<T>(jsonFilePath(pathname));
+}
+
 export async function writeJson(pathname: string, data: unknown): Promise<void> {
-  await put(pathname, JSON.stringify(data, null, 2), {
-    access: "public",
-    contentType: "application/json",
-    addRandomSuffix: false,
-    allowOverwrite: true,
-    cacheControlMaxAge: 60,
-  });
+  const filePath = jsonFilePath(pathname);
+  await mkdir(path.dirname(filePath), { recursive: true });
+  await writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
 }
 
 export async function deleteJson(pathname: string): Promise<void> {
   try {
-    await del(pathname);
+    await rm(jsonFilePath(pathname));
   } catch (err) {
-    console.error(`Erro ao remover ${pathname} do Blob:`, err);
+    console.error(`Erro ao remover ${pathname} do disco:`, err);
   }
+}
+
+function uploadUrlToFilePath(url: string): string {
+  // uploadImage sempre retorna um caminho raiz-relativo "/uploads/...".
+  const relative = url.replace(/^\/?uploads\//, "");
+  return path.join(UPLOADS_DIR, relative);
 }
 
 export async function uploadImage(
@@ -77,20 +80,20 @@ export async function uploadImage(
   folder: "products" | "portfolio" | "content" | "services"
 ): Promise<string> {
   const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
-  const pathname = `${folder}/${Date.now()}-${safeName}`;
+  const filename = `${Date.now()}-${safeName}`;
+  const filePath = path.join(UPLOADS_DIR, folder, filename);
 
-  const blob = await put(pathname, file, {
-    access: "public",
-    addRandomSuffix: true,
-  });
+  await mkdir(path.dirname(filePath), { recursive: true });
+  const buffer = Buffer.from(await file.arrayBuffer());
+  await writeFile(filePath, buffer);
 
-  return blob.url;
+  return `/uploads/${folder}/${filename}`;
 }
 
 export async function deleteImage(url: string): Promise<void> {
   try {
-    await del(url);
+    await rm(uploadUrlToFilePath(url));
   } catch (err) {
-    console.error("Erro ao remover imagem do Blob:", err);
+    console.error("Erro ao remover imagem do disco:", err);
   }
 }

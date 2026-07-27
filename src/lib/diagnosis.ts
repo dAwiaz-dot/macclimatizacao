@@ -1,6 +1,5 @@
 import { randomUUID } from "crypto";
 import { deleteJson, listJson, readJson, writeJson } from "@/lib/admin/blob-store";
-import { isBlobConfigured } from "@/lib/admin/env";
 
 export type DiagnosisOption = {
   id: string;
@@ -76,13 +75,11 @@ const fallbackOptions: DiagnosisOption[] = [
 export async function getDiagnosisOptions(): Promise<DiagnosisOption[]> {
   const options = await listJson<DiagnosisOption>(DIAGNOSIS_PREFIX);
   if (options.length === 0) {
-    if (isBlobConfigured) {
-      // Semeia as opções originais como registros reais na primeira leitura,
-      // para que editar/excluir funcione normalmente a partir daqui.
-      await Promise.all(
-        fallbackOptions.map((option) => writeJson(diagnosisPath(option.id), option))
-      );
-    }
+    // Semeia as opções originais como registros reais na primeira leitura,
+    // para que editar/excluir funcione normalmente a partir daqui.
+    await Promise.all(
+      fallbackOptions.map((option) => writeJson(diagnosisPath(option.id), option))
+    );
     return fallbackOptions;
   }
   return options.sort((a, b) => a.created_at.localeCompare(b.created_at));

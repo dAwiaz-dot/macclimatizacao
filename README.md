@@ -4,8 +4,9 @@ Site institucional e landing page de conversão para a **Mac Climatização**,
 empresa de climatização e ar-condicionado que atende Alfenas e região (MG).
 
 Construído com Next.js (App Router), React, TypeScript, Tailwind CSS,
-Framer Motion, Lucide Icons e Vercel Blob (armazenamento de imagens e dados)
-para o painel administrativo.
+Framer Motion e Lucide Icons. O painel administrativo grava fotos e dados
+direto em disco (funciona em qualquer host com filesystem persistente, como
+um Volume do Railway).
 
 ---
 
@@ -30,31 +31,32 @@ fotos e textos atualizados.
 ### Configurando o painel (necessário para funcionar)
 
 O login é simples (usuário e senha fixos, sem cadastro nem serviço externo de
-autenticação) e as fotos/dados ficam guardados no **Vercel Blob** — o mesmo
-provedor onde o site já vai estar hospedado, então não é preciso criar conta
-em mais nenhum lugar.
+autenticação) e as fotos/dados ficam guardados em disco, num diretório
+persistente definido pela variável `DATA_ROOT`.
 
-1. No seu `.env.local`, defina:
+1. No seu `.env.local` (ou nas variáveis de ambiente do host), defina:
    ```
    ADMIN_USERNAME=admin
    ADMIN_PASSWORD=escolha-uma-senha-forte
    ADMIN_SESSION_SECRET=um-texto-aleatorio-e-longo
+   DATA_ROOT=/data
    ```
    `ADMIN_SESSION_SECRET` pode ser gerado com `openssl rand -hex 32` — serve
    apenas para assinar o cookie de sessão, não precisa ser memorizado.
-2. Na Vercel, abra o projeto → aba **Storage** → **Create Database** →
-   **Blob**. Ao conectar o Blob store ao projeto, a variável
-   `BLOB_READ_WRITE_TOKEN` é criada automaticamente nas Environment
-   Variables do projeto — não precisa copiar nada manualmente em produção.
-3. Para rodar localmente com upload de imagens funcionando, copie o valor de
-   `BLOB_READ_WRITE_TOKEN` do dashboard da Vercel (Storage → seu Blob store →
-   `.env.local` tab) para o seu `.env.local`, ou rode `vercel env pull`.
+2. **No Railway**: crie um *Volume* no serviço (aba **Volumes** → **New
+   Volume**), monte-o em `/data`, e defina `DATA_ROOT=/data` nas variáveis de
+   ambiente do serviço. Sem isso, os dados/fotos enviados pelo admin somem a
+   cada novo deploy (o filesystem do container é recriado do zero).
+3. Localmente, sem definir `DATA_ROOT`, os dados ficam em `./.data` dentro do
+   projeto (ignorado pelo Git) — não precisa de nenhuma configuração extra
+   para testar o admin no seu computador.
 4. Rode o projeto (`npm run dev`) e acesse `http://localhost:3000/admin`
    para entrar no painel com o usuário/senha definidos no passo 1.
 
-Sem essas variáveis configuradas, o site público continua funcionando
-normalmente — as seções de Produtos e Trabalhos Realizados apenas ficam
-vazias, e o painel `/admin` mostra um aviso pedindo a configuração.
+Sem `ADMIN_USERNAME`/`ADMIN_PASSWORD`/`ADMIN_SESSION_SECRET` configuradas, o
+site público continua funcionando normalmente — as seções que dependem do
+admin (Produtos, Trabalhos Realizados etc.) apenas ficam vazias ou com os
+textos padrão, e o painel `/admin` mostra um aviso pedindo a configuração.
 
 ---
 
@@ -120,6 +122,8 @@ Copie `.env.example` para `.env.local` e preencha conforme necessário:
 - `NEXT_PUBLIC_GTM_ID` — ID do container do Google Tag Manager (opcional).
 - `NEXT_PUBLIC_META_PIXEL_ID` — ID do Meta Pixel (opcional).
 - `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` — código de verificação do Google Search Console (opcional).
+- `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` — credenciais do painel `/admin` (ver seção acima).
+- `DATA_ROOT` — diretório persistente onde ficam dados e fotos do painel (ver seção acima).
 
 Os scripts de analytics só são carregados quando os respectivos IDs são
 preenchidos — sem eles, nenhum script de terceiros roda no site.
@@ -133,7 +137,8 @@ src/
     servicos/              Lista de serviços
       [slug]/page.tsx      Página individual de cada serviço
     sobre/                Página "Sobre"
-    trabalhos-realizados/ Portfólio de trabalhos (dinâmico, via Vercel Blob)
+    trabalhos-realizados/ Portfólio de trabalhos (dinâmico, via disco/DATA_ROOT)
+    uploads/[...path]/    Serve as imagens enviadas pelo painel administrativo
     contato/              Contato + formulário
     politica-de-privacidade/
     termos-de-uso/
@@ -151,7 +156,7 @@ src/
     analytics/              Scripts de GA4 / GTM / Meta Pixel
   data/                     Dados fixos (empresa, serviços, FAQ, depoimentos)
   lib/                      Utilitários (WhatsApp, analytics, schema.org, produtos/portfólio)
-    admin/                  Login (sessão via cookie assinado) e armazenamento (Vercel Blob)
+    admin/                  Login (sessão via cookie assinado) e armazenamento em disco (DATA_ROOT)
   middleware.ts             Protege as rotas /admin verificando o cookie de sessão
 public/
   images/                   Pasta para fotos reais (ver README dentro da pasta)
@@ -232,6 +237,12 @@ publicar em produção, revise `npm audit` e considere planejar essa migração.
 ## Deploy
 
 O projeto está pronto para deploy em qualquer plataforma compatível com
-Next.js (Vercel, Netlify, servidor Node próprio, etc.). Basta configurar as
-variáveis de ambiente de produção e rodar `npm run build && npm run start`
-(ou o processo equivalente da plataforma escolhida).
+Next.js (Railway, Vercel, Netlify, servidor Node próprio, etc.). Basta
+configurar as variáveis de ambiente de produção e rodar
+`npm run build && npm run start` (ou o processo equivalente da plataforma
+escolhida).
+
+**No Railway**, além das variáveis de ambiente, é essencial criar um Volume e
+montá-lo (ex.: em `/data`), definindo `DATA_ROOT` com esse mesmo caminho —
+sem isso, as fotos e dados cadastrados pelo painel `/admin` somem a cada
+redeploy, porque o filesystem do container não é persistente por padrão.

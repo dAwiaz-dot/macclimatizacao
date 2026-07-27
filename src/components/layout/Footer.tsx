@@ -5,19 +5,22 @@ import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { company } from "@/data/company";
 import { services } from "@/data/services";
 import { whatsAppUrlDefault } from "@/lib/whatsapp";
+import { getContent, defaultFooter, defaultBranding } from "@/lib/site-content";
 
-export function Footer() {
+export async function Footer() {
   const year = new Date().getFullYear();
+  const [footer, branding] = await Promise.all([
+    getContent("footer", defaultFooter),
+    getContent("branding", defaultBranding),
+  ]);
 
   return (
     <footer className="bg-mac-navy-800 text-ice-100">
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
         <div className="lg:col-span-2">
-          <Logo />
+          <Logo src={branding.logo_url} />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-ice-100/80">
-            Soluções de climatização para casas, comércios e empresas em Alfenas
-            e região: venda, instalação, manutenção, reparo e higienização de
-            ar-condicionado.
+            {footer.description}
           </p>
           <div className="mt-6 flex flex-col gap-3 text-sm">
             <a

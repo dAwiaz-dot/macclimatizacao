@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export function Logo() {
+const defaultSrc = "/images/logo/mac-climatizacao-logo-full.png";
+
+export function Logo({ src, alt }: { src?: string; alt?: string }) {
   return (
     <Link
       href="/"
@@ -9,8 +11,8 @@ export function Logo() {
       aria-label="Mac Climatização — página inicial"
     >
       <Image
-        src="/images/logo/mac-climatizacao-logo-full.png"
-        alt="Mac Climatização"
+        src={src || defaultSrc}
+        alt={alt || "Mac Climatização"}
         width={1536}
         height={590}
         priority

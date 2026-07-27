@@ -6,6 +6,7 @@ import { QuoteForm } from "@/components/sections/QuoteForm";
 import { ServiceArea } from "@/components/sections/ServiceArea";
 import { company } from "@/data/company";
 import { whatsAppUrlDefault } from "@/lib/whatsapp";
+import { getContent, defaultContactPage } from "@/lib/site-content";
 
 export const metadata: Metadata = {
   title: "Contato",
@@ -45,15 +46,17 @@ const contactChannels = [
   },
 ];
 
-export default function ContatoPage() {
+export default async function ContatoPage() {
+  const contactPage = await getContent("contactPage", defaultContactPage);
+
   return (
     <div className="pt-16">
       <section className="bg-white py-20 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="Contato"
-            title="Fale com a Mac Climatização"
-            description="Escolha o canal mais conveniente para você."
+            eyebrow={contactPage.eyebrow}
+            title={contactPage.title}
+            description={contactPage.description}
           />
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">

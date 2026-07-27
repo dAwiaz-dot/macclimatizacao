@@ -2,28 +2,22 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { whatsAppUrlDefault } from "@/lib/whatsapp";
+import { getContent, defaultProcessTimeline } from "@/lib/site-content";
 
-const steps = [
-  "O cliente entra em contato",
-  "Explica o serviço ou problema",
-  "A equipe realiza a avaliação",
-  "O orçamento é apresentado",
-  "O serviço é agendado",
-  "O trabalho é executado e testado",
-];
+export async function ProcessTimeline() {
+  const content = await getContent("processTimeline", defaultProcessTimeline);
 
-export function ProcessTimeline() {
   return (
     <section className="bg-white py-20 sm:py-24">
       <Container>
         <SectionHeading
-          eyebrow="Como funciona"
-          title="Processo de atendimento"
-          description="Um caminho simples e transparente, do primeiro contato até a entrega do serviço."
+          eyebrow={content.eyebrow}
+          title={content.title}
+          description={content.description}
         />
 
         <ol className="mx-auto mt-12 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {steps.map((step, index) => (
+          {content.steps.map((step, index) => (
             <li
               key={step}
               className="relative flex gap-4 rounded-2xl border border-mac-navy-100 bg-ice-50 p-5"
@@ -38,7 +32,7 @@ export function ProcessTimeline() {
 
         <div className="mt-10 flex justify-center">
           <Button href={whatsAppUrlDefault()} external size="lg">
-            Quero solicitar uma avaliação
+            {content.ctaLabel}
           </Button>
         </div>
       </Container>

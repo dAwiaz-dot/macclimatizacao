@@ -13,12 +13,15 @@ import {
   Wrench,
   MessageSquareQuote,
   HelpCircle,
+  MessageCircleQuestion,
+  GalleryHorizontal,
 } from "lucide-react";
 import { signOutAction } from "@/lib/admin/auth-actions";
 import { isAuthConfigured } from "@/lib/admin/env";
 import { isValidSessionToken, SESSION_COOKIE } from "@/lib/admin/session";
 import { AdminSetupNotice } from "@/components/admin/AdminSetupNotice";
 import { Logo } from "@/components/layout/Logo";
+import { getContent, defaultBranding } from "@/lib/site-content";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -31,6 +34,8 @@ const navItems = [
   { href: "/admin/categorias", label: "Categorias", icon: Tags },
   { href: "/admin/servicos", label: "Serviços", icon: Wrench },
   { href: "/admin/portfolio", label: "Trabalhos realizados", icon: Images },
+  { href: "/admin/antes-depois", label: "Antes e depois", icon: GalleryHorizontal },
+  { href: "/admin/diagnostico", label: "Diagnóstico rápido", icon: MessageCircleQuestion },
   { href: "/admin/depoimentos", label: "Depoimentos", icon: MessageSquareQuote },
   { href: "/admin/faq", label: "Perguntas frequentes", icon: HelpCircle },
 ];
@@ -51,13 +56,15 @@ export default async function AdminDashboardLayout({
     redirect("/admin/login");
   }
 
+  const branding = await getContent("branding", defaultBranding);
+
   return (
     <div className="min-h-screen bg-ice-50">
       <div className="flex min-h-screen flex-col lg:flex-row">
         <aside className="flex flex-col justify-between border-b border-mac-navy-100 bg-mac-navy-800 p-6 lg:min-h-screen lg:w-64 lg:border-b-0 lg:border-r">
           <div>
             <div className="mb-8">
-              <Logo />
+              <Logo src={branding.logo_url} />
               <p className="mt-2 text-xs text-ice-100/60">Painel administrativo</p>
             </div>
             <nav className="flex flex-row gap-2 lg:flex-col">

@@ -1,14 +1,22 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 
 type Props = {
   beforeLabel: string;
   afterLabel: string;
+  beforeImageUrl?: string;
+  afterImageUrl?: string;
 };
 
-export function BeforeAfterSlider({ beforeLabel, afterLabel }: Props) {
+export function BeforeAfterSlider({
+  beforeLabel,
+  afterLabel,
+  beforeImageUrl,
+  afterImageUrl,
+}: Props) {
   const [position, setPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -30,7 +38,11 @@ export function BeforeAfterSlider({ beforeLabel, afterLabel }: Props) {
       onTouchMove={(e) => updateFromClientX(e.touches[0].clientX)}
     >
       <div className="absolute inset-0">
-        <PlaceholderImage label={afterLabel} className="h-full w-full" />
+        {afterImageUrl ? (
+          <Image src={afterImageUrl} alt={afterLabel} fill className="object-cover" />
+        ) : (
+          <PlaceholderImage label={afterLabel} className="h-full w-full" />
+        )}
       </div>
 
       <div
@@ -38,7 +50,11 @@ export function BeforeAfterSlider({ beforeLabel, afterLabel }: Props) {
         style={{ width: `${position}%` }}
       >
         <div className="absolute inset-y-0 left-0 h-full w-[--slider-w]" style={{ ["--slider-w" as string]: `${containerRef.current?.offsetWidth ?? 0}px` }}>
-          <PlaceholderImage label={beforeLabel} className="h-full w-full" />
+          {beforeImageUrl ? (
+            <Image src={beforeImageUrl} alt={beforeLabel} fill className="object-cover" />
+          ) : (
+            <PlaceholderImage label={beforeLabel} className="h-full w-full" />
+          )}
         </div>
       </div>
 

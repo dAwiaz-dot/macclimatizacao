@@ -22,8 +22,9 @@ export function GalleryGrid({ items }: { items: PortfolioItem[] }) {
         {items.map((item, index) => (
           <motion.div
             key={item.id}
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 24, scale: 1 }}
             whileInView={{ opacity: 1, y: 0 }}
+            whileHover={{ scale: 1.02 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5, delay: (index % 3) * 0.1 }}
             className="overflow-hidden rounded-2xl border border-mac-navy-100 bg-white shadow-sm transition-shadow hover:shadow-lg"
@@ -31,15 +32,23 @@ export function GalleryGrid({ items }: { items: PortfolioItem[] }) {
             <button
               type="button"
               onClick={() => setSelectedId(item.id)}
-              className="relative block aspect-video w-full bg-ice-100"
+              className="group relative block aspect-video w-full overflow-hidden bg-ice-100"
             >
-              <Image
-                src={item.image_url}
-                alt={item.title}
-                fill
-                sizes="(max-width: 768px) 100vw, 33vw"
-                className="object-cover transition-transform hover:scale-[1.02]"
-              />
+              <motion.div
+                className="absolute inset-0"
+                initial={{ scale: 1 }}
+                whileInView={{ scale: 1.06 }}
+                viewport={{ once: false, amount: 0.8 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
+                <Image
+                  src={item.image_url}
+                  alt={item.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-contain p-3 transition-transform duration-300 group-hover:scale-110"
+                />
+              </motion.div>
             </button>
             <div className="p-5">
               <h3 className="text-lg font-semibold text-mac-navy-800">{item.title}</h3>
@@ -105,12 +114,12 @@ export function GalleryGrid({ items }: { items: PortfolioItem[] }) {
                   <X className="h-5 w-5" />
                 </button>
               </div>
-              <div className="relative aspect-video w-full">
+              <div className="relative aspect-video w-full bg-ice-100">
                 <Image
                   src={selectedItem.image_url}
                   alt={selectedItem.title}
                   fill
-                  className="object-cover"
+                  className="object-contain p-3"
                 />
               </div>
               {selectedItem.description && (

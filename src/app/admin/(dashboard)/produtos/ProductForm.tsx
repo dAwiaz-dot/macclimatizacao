@@ -111,8 +111,8 @@ export function ProductForm({
           </p>
         )}
         {preview && (
-          <div className="relative mt-3 h-40 w-40 overflow-hidden rounded-xl border border-mac-navy-100">
-            <Image src={preview} alt="Pré-visualização" fill className="object-cover" />
+          <div className="relative mt-3 h-40 w-40 overflow-hidden rounded-xl border border-mac-navy-100 bg-ice-100">
+            <Image src={preview} alt="Pré-visualização" fill className="object-contain p-2" />
           </div>
         )}
       </div>

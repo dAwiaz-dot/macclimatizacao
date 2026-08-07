@@ -68,7 +68,7 @@ export function ProductsGrid({ products }: { products: Product[] }) {
                 alt={product.name}
                 fill
                 sizes="(max-width: 768px) 100vw, 33vw"
-                className="object-cover"
+                className="object-contain p-4"
               />
             </div>
             <div className="p-5">

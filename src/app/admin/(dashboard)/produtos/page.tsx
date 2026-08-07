@@ -43,7 +43,7 @@ export default async function ProdutosPage() {
                   src={product.image_url}
                   alt={product.name}
                   fill
-                  className="object-cover"
+                  className="object-contain p-4"
                 />
               </div>
               <div className="p-4">
